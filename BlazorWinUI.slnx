@@ -1,2 +1,3 @@
 <Solution>
+  <Project Path="src/BlazorWinUI/BlazorWinUI.csproj" />
 </Solution>
