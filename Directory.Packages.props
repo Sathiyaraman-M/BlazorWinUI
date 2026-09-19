@@ -7,5 +7,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="Microsoft.AspNetCore.Components" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK.WinUI" Version="2.3.9" />
   </ItemGroup>
 </Project>
