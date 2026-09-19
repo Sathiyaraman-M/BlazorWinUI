@@ -10,4 +10,7 @@
   <ItemGroup>
     <None Include="../../LICENSE" Pack="true" PackagePath="LICENSE" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" />
+  </ItemGroup>
 </Project>
