@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <NoWarn>BL0006;$(NoWarn)</NoWarn>
     <PackageId>BlazorWinUI</PackageId>
     <Authors>Sathiyaraman-M</Authors>
     <Description>Build native Windows applications with Blazor and WinUI.</Description>
