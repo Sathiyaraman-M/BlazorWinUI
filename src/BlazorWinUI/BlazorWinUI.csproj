@@ -5,6 +5,8 @@
     <Authors>Sathiyaraman-M</Authors>
     <Description>Build native Windows applications with Blazor and WinUI.</Description>
     <PackageTags>blazor;windows;winui;native</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/Sathiyaraman-M/BlazorWinUI</RepositoryUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
@@ -13,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" />
   </ItemGroup>
 </Project>
