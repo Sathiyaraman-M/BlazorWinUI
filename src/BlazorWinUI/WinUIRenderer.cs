@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BlazorWinUI;
 
-public class WinUIRenderer(IServiceProvider serviceProvider, ILoggerFactory loggerFactory) : Renderer(serviceProvider, loggerFactory)
+internal sealed class WinUIRenderer(IServiceProvider serviceProvider, ILoggerFactory loggerFactory) : Renderer(serviceProvider, loggerFactory)
 {
     private readonly WinUIDispatcher _dispatcher = new();
 

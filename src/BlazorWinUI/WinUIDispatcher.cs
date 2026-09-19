@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorWinUI;
 
-public class WinUIDispatcher : Dispatcher
+internal sealed class WinUIDispatcher : Dispatcher
 {
     public override bool CheckAccess()
     {
