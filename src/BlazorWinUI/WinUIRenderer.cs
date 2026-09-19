@@ -6,7 +6,9 @@ namespace BlazorWinUI;
 
 public class WinUIRenderer(IServiceProvider serviceProvider, ILoggerFactory loggerFactory) : Renderer(serviceProvider, loggerFactory)
 {
-    public override Dispatcher Dispatcher => throw new NotImplementedException();
+    private readonly WinUIDispatcher _dispatcher = new();
+
+    public override Dispatcher Dispatcher => _dispatcher;
 
     protected override void HandleException(Exception exception)
     {
