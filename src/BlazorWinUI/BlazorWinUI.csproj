@@ -1,1 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>BlazorWinUI</PackageId>
+    <Authors>Sathiyaraman-M</Authors>
+    <Description>Build native Windows applications with Blazor and WinUI.</Description>
+    <PackageTags>blazor;windows;winui;native</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="../../LICENSE" Pack="true" PackagePath="LICENSE" />
+  </ItemGroup>
+</Project>
