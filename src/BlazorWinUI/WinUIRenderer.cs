@@ -8,6 +8,7 @@ namespace BlazorWinUI;
 internal sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQueue dispatcherQueue, ILoggerFactory loggerFactory) : Renderer(serviceProvider, loggerFactory)
 {
     private readonly WinUIDispatcher _dispatcher = new(dispatcherQueue);
+    private readonly ILogger<WinUIRenderer> _logger = loggerFactory.CreateLogger<WinUIRenderer>();
 
     public override Dispatcher Dispatcher => _dispatcher;
 
@@ -15,6 +16,7 @@ internal sealed class WinUIRenderer(IServiceProvider serviceProvider, Dispatcher
 
     protected override void HandleException(Exception exception)
     {
+        _logger.LogError(exception, "Unhandled Exception in the WinUI Renderer");
         OnUnhandledException?.Invoke(this, new UnhandledExceptionEventArgs(exception, false));
     }
 
