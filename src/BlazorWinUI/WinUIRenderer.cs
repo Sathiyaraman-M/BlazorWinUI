@@ -11,9 +11,11 @@ internal sealed class WinUIRenderer(IServiceProvider serviceProvider, Dispatcher
 
     public override Dispatcher Dispatcher => _dispatcher;
 
+    public event EventHandler<UnhandledExceptionEventArgs>? OnUnhandledException;
+
     protected override void HandleException(Exception exception)
     {
-        throw new NotImplementedException();
+        OnUnhandledException?.Invoke(this, new UnhandledExceptionEventArgs(exception, false));
     }
 
     protected override Task UpdateDisplayAsync(in RenderBatch renderBatch)
