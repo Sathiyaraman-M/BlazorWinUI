@@ -3,11 +3,11 @@ using Microsoft.UI.Dispatching;
 
 namespace BlazorWinUI;
 
-internal sealed class WinUIDispatcher : Dispatcher
+internal sealed class WinUIDispatcher(DispatcherQueue queue) : Dispatcher
 {
     public override bool CheckAccess()
     {
-        return DispatcherQueue.GetForCurrentThread().HasThreadAccess;
+        return queue.HasThreadAccess;
     }
 
     public override Task InvokeAsync(Action workItem)
@@ -27,7 +27,6 @@ internal sealed class WinUIDispatcher : Dispatcher
 
         var taskCompletionSource = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        var queue = DispatcherQueue.GetForCurrentThread();
         queue.TryEnqueue(() =>
         {
             try
@@ -53,7 +52,6 @@ internal sealed class WinUIDispatcher : Dispatcher
 
         var taskCompletionSource = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        var queue = DispatcherQueue.GetForCurrentThread();
         queue.TryEnqueue(async () =>
         {
             try
@@ -87,7 +85,6 @@ internal sealed class WinUIDispatcher : Dispatcher
 
         var taskCompletionSource = new TaskCompletionSource<TResult>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        var queue = DispatcherQueue.GetForCurrentThread();
         queue.TryEnqueue(() =>
         {
             try
@@ -113,7 +110,6 @@ internal sealed class WinUIDispatcher : Dispatcher
 
         var taskCompletionSource = new TaskCompletionSource<TResult>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        var queue = DispatcherQueue.GetForCurrentThread();
         queue.TryEnqueue(async () =>
         {
             try

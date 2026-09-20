@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 
 namespace BlazorWinUI;
 
-internal sealed class WinUIRenderer(IServiceProvider serviceProvider, ILoggerFactory loggerFactory) : Renderer(serviceProvider, loggerFactory)
+internal sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQueue dispatcherQueue, ILoggerFactory loggerFactory) : Renderer(serviceProvider, loggerFactory)
 {
-    private readonly WinUIDispatcher _dispatcher = new();
+    private readonly WinUIDispatcher _dispatcher = new(dispatcherQueue);
 
     public override Dispatcher Dispatcher => _dispatcher;
 
