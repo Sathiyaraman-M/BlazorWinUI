@@ -5,7 +5,7 @@ namespace BlazorWinUI.Abstractions;
 
 internal interface IControlAdapter : IDisposable
 {
-    public UIElement Element { get; }
+    public FrameworkElement Element { get; }
 
     public void ApplyParameters(ParameterView parameterView);
 }
