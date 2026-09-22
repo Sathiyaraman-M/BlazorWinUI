@@ -1,6 +1,17 @@
 @using BlazorWinUI.Components
 
 <StackPanel>
-    <TextBlock Text="Line1" />
-    <TextBlock Text="Line2" />
+    <Button Text="Increment" OnClick="IncrementCount" />
+    <TextBlock Text="@CountText" />
 </StackPanel>
+
+@code {
+    private int currentCount;
+
+    private string CountText => $"Current count: {currentCount}";
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

@@ -34,6 +34,7 @@ public sealed partial class MainPage : Page
             loggerFactory);
         _renderer.RegisterAdapter<BlazorWinUI.Components.StackPanel, StackPanelAdapter>();
         _renderer.RegisterAdapter<BlazorWinUI.Components.TextBlock, TextBlockAdapter>();
+        _renderer.RegisterAdapter<BlazorWinUI.Components.Button, ButtonAdapter>();
         Loaded += OnLoaded;
     }
 
