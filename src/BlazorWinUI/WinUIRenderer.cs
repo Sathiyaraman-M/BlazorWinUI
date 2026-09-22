@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml.Controls;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BlazorWinUI;
 
@@ -23,6 +25,41 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
         ?? AdapterResolver.CreateDefault(serviceProvider);
 
     public event EventHandler<UnhandledExceptionEventArgs>? OnUnhandledException;
+
+    /// <summary>
+    /// Mounts a root Blazor component into a WinUI panel.
+    /// </summary>
+    public Task<int> MountRootComponentAsync<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent>(
+        Panel host)
+        where TComponent : IComponent =>
+        MountRootComponentAsync<TComponent>(host, ParameterView.Empty);
+
+    /// <summary>
+    /// Mounts a root Blazor component into a WinUI panel with parameters.
+    /// </summary>
+    public Task<int> MountRootComponentAsync<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent>(
+        Panel host,
+        ParameterView parameters)
+        where TComponent : IComponent
+    {
+        ArgumentNullException.ThrowIfNull(host);
+
+        return Dispatcher.InvokeAsync(async () =>
+        {
+            var component = InstantiateComponent(typeof(TComponent));
+            var componentId = AssignRootComponentId(component);
+            var rootHost = new RootPanelHost(host);
+            var root = new NativeControl(componentId, adapter: null, container: rootHost);
+
+            NativeControls.Add(componentId, root);
+            rootHost.SetChildren([]);
+            await RenderRootComponentAsync(componentId, parameters);
+
+            return componentId;
+        });
+    }
 
     protected override void HandleException(Exception exception)
     {
@@ -182,5 +219,18 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
         control.Children.Clear();
         NativeControls.Remove(control.ComponentId);
         control.Adapter?.Dispose();
+    }
+
+    private sealed class RootPanelHost(Panel panel) : IControlContainer
+    {
+        public void SetChildren(IReadOnlyList<IAdapter> children)
+        {
+            panel.Children.Clear();
+
+            foreach (var child in children)
+            {
+                panel.Children.Add(child.Element);
+            }
+        }
     }
 }
