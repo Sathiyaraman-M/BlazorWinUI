@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 using BlazorWinUI.Abstractions;
 
 using Microsoft.AspNetCore.Components;
@@ -6,8 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Controls;
+
 using FrameworkElement = Microsoft.UI.Xaml.FrameworkElement;
-using System.Diagnostics.CodeAnalysis;
 
 namespace BlazorWinUI;
 
@@ -30,28 +32,23 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
     /// <summary>
     /// Registers the native adapter used to render a Blazor component.
     /// </summary>
-    public void RegisterAdapter<TComponent, TAdapter>()
-        where TComponent : IComponent
-        where TAdapter : class, IAdapter =>
+    public void RegisterAdapter<TComponent, TAdapter>() where TComponent : IComponent where TAdapter : class, IAdapter
+    {
         AdapterResolver.Register<TComponent, TAdapter>();
+    }
 
     /// <summary>
     /// Mounts a root Blazor component into a WinUI panel.
     /// </summary>
-    public Task<int> MountRootComponentAsync<
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent>(
-        Panel host)
-        where TComponent : IComponent =>
-        MountRootComponentAsync<TComponent>(host, ParameterView.Empty);
+    public Task<int> MountRootComponentAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent>(Panel host) where TComponent : IComponent
+    {
+        return MountRootComponentAsync<TComponent>(host, ParameterView.Empty);
+    }
 
     /// <summary>
     /// Mounts a root Blazor component into a WinUI panel with parameters.
     /// </summary>
-    public Task<int> MountRootComponentAsync<
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent>(
-        Panel host,
-        ParameterView parameters)
-        where TComponent : IComponent
+    public Task<int> MountRootComponentAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent>(Panel host, ParameterView parameters) where TComponent : IComponent
     {
         ArgumentNullException.ThrowIfNull(host);
 
