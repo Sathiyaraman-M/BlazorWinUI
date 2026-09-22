@@ -1,6 +1,4 @@
 using BlazorWinUI;
-using BlazorWinUI.Adapters;
-using BlazorWinUI.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
@@ -32,9 +30,6 @@ public sealed partial class MainPage : Page
             services,
             DispatcherQueue.GetForCurrentThread(),
             loggerFactory);
-        _renderer.RegisterAdapter<BlazorWinUI.Components.StackPanel, StackPanelAdapter>();
-        _renderer.RegisterAdapter<BlazorWinUI.Components.TextBlock, TextBlockAdapter>();
-        _renderer.RegisterAdapter<BlazorWinUI.Components.Button, ButtonAdapter>();
         Loaded += OnLoaded;
     }
 
