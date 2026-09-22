@@ -8,6 +8,9 @@ using Microsoft.UI.Dispatching;
 
 namespace BlazorWinUI;
 
+/// <summary>
+/// Blazor renderer that projects native component adapters into a WinUI visual tree.
+/// </summary>
 public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQueue dispatcherQueue, ILoggerFactory loggerFactory) : Renderer(serviceProvider, loggerFactory)
 {
     private readonly WinUIDispatcher _dispatcher = new(dispatcherQueue);
