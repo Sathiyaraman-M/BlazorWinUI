@@ -8,7 +8,7 @@ using Microsoft.UI.Dispatching;
 
 namespace BlazorWinUI;
 
-internal sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQueue dispatcherQueue, ILoggerFactory loggerFactory) : Renderer(serviceProvider, loggerFactory)
+public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQueue dispatcherQueue, ILoggerFactory loggerFactory) : Renderer(serviceProvider, loggerFactory)
 {
     private readonly WinUIDispatcher _dispatcher = new(dispatcherQueue);
     private readonly ILogger<WinUIRenderer> _logger = loggerFactory.CreateLogger<WinUIRenderer>();
