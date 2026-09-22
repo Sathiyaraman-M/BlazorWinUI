@@ -4,22 +4,22 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorWinUI;
 
-internal sealed class ControlAdapterResolver(IServiceProvider services)
+internal sealed class AdapterResolver(IServiceProvider services)
 {
     private readonly Dictionary<Type, Type> _registrations = [];
 
     public void Register<TComponent, TAdapter>()
-        where TAdapter : class, IControlAdapter
+        where TAdapter : class, IAdapter
     {
         _registrations[typeof(TComponent)] = typeof(TAdapter);
     }
 
-    public static ControlAdapterResolver CreateDefault(IServiceProvider services)
+    public static AdapterResolver CreateDefault(IServiceProvider services)
     {
-        return new ControlAdapterResolver(services);
+        return new AdapterResolver(services);
     }
 
-    public IControlAdapter Create(Type componentType)
+    public IAdapter Create(Type componentType)
     {
         ArgumentNullException.ThrowIfNull(componentType);
 
@@ -29,6 +29,6 @@ internal sealed class ControlAdapterResolver(IServiceProvider services)
                 $"No native WinUI control adapter is registered for component '{componentType.FullName}'.");
         }
 
-        return (IControlAdapter)ActivatorUtilities.CreateInstance(services, adapterType);
+        return (IAdapter)ActivatorUtilities.CreateInstance(services, adapterType);
     }
 }

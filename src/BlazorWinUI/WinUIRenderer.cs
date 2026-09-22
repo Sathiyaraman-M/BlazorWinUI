@@ -16,8 +16,8 @@ internal sealed class WinUIRenderer(IServiceProvider serviceProvider, Dispatcher
     public override Dispatcher Dispatcher => _dispatcher;
 
     internal Dictionary<int, NativeControl> NativeControls { get; } = [];
-    internal ControlAdapterResolver AdapterResolver { get; } = serviceProvider.GetService<ControlAdapterResolver>()
-        ?? ControlAdapterResolver.CreateDefault(serviceProvider);
+    internal AdapterResolver AdapterResolver { get; } = serviceProvider.GetService<AdapterResolver>()
+        ?? AdapterResolver.CreateDefault(serviceProvider);
 
     public event EventHandler<UnhandledExceptionEventArgs>? OnUnhandledException;
 
@@ -95,7 +95,7 @@ internal sealed class WinUIRenderer(IServiceProvider serviceProvider, Dispatcher
 
         if (childrenChanged)
         {
-            container.SetChildren([.. desiredChildren.Select(child => child.Adapter).Cast<IControlAdapter>()]);
+            container.SetChildren([.. desiredChildren.Select(child => child.Adapter).Cast<IAdapter>()]);
         }
     }
 
@@ -144,7 +144,7 @@ internal sealed class WinUIRenderer(IServiceProvider serviceProvider, Dispatcher
         }
     }
 
-    private static void ApplyParameters(IControlAdapter adapter, RenderTreeFrame[] frames, int start, int count)
+    private static void ApplyParameters(IAdapter adapter, RenderTreeFrame[] frames, int start, int count)
     {
         var values = new Dictionary<string, object?>(StringComparer.Ordinal);
         var end = Math.Min(start + count, frames.Length);

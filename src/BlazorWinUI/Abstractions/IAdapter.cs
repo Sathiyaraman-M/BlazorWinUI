@@ -3,7 +3,7 @@ using Microsoft.UI.Xaml;
 
 namespace BlazorWinUI.Abstractions;
 
-internal interface IControlAdapter : IDisposable
+internal interface IAdapter : IDisposable
 {
     public FrameworkElement Element { get; }
 
