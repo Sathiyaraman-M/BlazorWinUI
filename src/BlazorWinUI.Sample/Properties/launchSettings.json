@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "BlazorWinUI.Sample (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "BlazorWinUI.Sample (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
