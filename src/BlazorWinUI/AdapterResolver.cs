@@ -1,5 +1,6 @@
 using BlazorWinUI.Abstractions;
 
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorWinUI;
@@ -9,6 +10,7 @@ internal sealed class AdapterResolver(IServiceProvider services)
     private readonly Dictionary<Type, Type> _registrations = [];
 
     public void Register<TComponent, TAdapter>()
+        where TComponent : IComponent
         where TAdapter : class, IAdapter
     {
         _registrations[typeof(TComponent)] = typeof(TAdapter);

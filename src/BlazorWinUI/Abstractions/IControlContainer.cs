@@ -1,6 +1,6 @@
 namespace BlazorWinUI.Abstractions;
 
-internal interface IControlContainer
+public interface IControlContainer
 {
-    public void SetChildren(IReadOnlyList<IAdapter> children);
+    public void SetChildren(IReadOnlyList<Microsoft.UI.Xaml.FrameworkElement> children);
 }

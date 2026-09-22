@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Controls;
+using FrameworkElement = Microsoft.UI.Xaml.FrameworkElement;
 using System.Diagnostics.CodeAnalysis;
 
 namespace BlazorWinUI;
@@ -25,6 +26,14 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
         ?? AdapterResolver.CreateDefault(serviceProvider);
 
     public event EventHandler<UnhandledExceptionEventArgs>? OnUnhandledException;
+
+    /// <summary>
+    /// Registers the native adapter used to render a Blazor component.
+    /// </summary>
+    public void RegisterAdapter<TComponent, TAdapter>()
+        where TComponent : IComponent
+        where TAdapter : class, IAdapter =>
+        AdapterResolver.Register<TComponent, TAdapter>();
 
     /// <summary>
     /// Mounts a root Blazor component into a WinUI panel.
@@ -135,7 +144,7 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
 
         if (childrenChanged)
         {
-            container.SetChildren([.. desiredChildren.Select(child => child.Adapter).Cast<IAdapter>()]);
+            container.SetChildren([.. desiredChildren.Select(child => child.Adapter!.Element)]);
         }
     }
 
@@ -148,7 +157,7 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
         }
 
         var adapter = AdapterResolver.Create(frame.ComponentType);
-        var control = new NativeControl(frame.ComponentId, adapter);
+        var control = new NativeControl(frame.ComponentId, adapter, adapter as IControlContainer);
         NativeControls.Add(control.ComponentId, control);
         ApplyParameters(adapter, frames, frameIndex + 1, frame.ComponentSubtreeLength - 1);
         return control;
@@ -223,13 +232,13 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
 
     private sealed class RootPanelHost(Panel panel) : IControlContainer
     {
-        public void SetChildren(IReadOnlyList<IAdapter> children)
+        public void SetChildren(IReadOnlyList<FrameworkElement> children)
         {
             panel.Children.Clear();
 
             foreach (var child in children)
             {
-                panel.Children.Add(child.Element);
+                panel.Children.Add(child);
             }
         }
     }
