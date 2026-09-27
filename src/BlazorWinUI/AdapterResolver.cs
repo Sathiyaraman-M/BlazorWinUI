@@ -1,6 +1,4 @@
 using BlazorWinUI.Abstractions;
-using BlazorWinUI.Adapters;
-using BlazorWinUI.Components;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,9 +19,7 @@ internal sealed class AdapterResolver(IServiceProvider services)
     public static AdapterResolver CreateDefault(IServiceProvider services)
     {
         var resolver = new AdapterResolver(services);
-        resolver.Register<StackPanel, StackPanelAdapter>();
-        resolver.Register<TextBlock, TextBlockAdapter>();
-        resolver.Register<Button, ButtonAdapter>();
+        GeneratedAdapterRegistry.RegisterDefaults(resolver);
         return resolver;
     }
 
