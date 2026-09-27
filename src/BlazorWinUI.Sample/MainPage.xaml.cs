@@ -17,6 +17,7 @@ namespace BlazorWinUI_Sample;
 public sealed partial class MainPage : Page
 {
     private readonly WinUIRenderer _renderer;
+    private readonly DispatcherQueue _dispatcherQueue;
 
     public MainPage()
     {
@@ -26,11 +27,13 @@ public sealed partial class MainPage : Page
             .AddLogging()
             .BuildServiceProvider();
         var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+        _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
         _renderer = new WinUIRenderer(
             services,
-            DispatcherQueue.GetForCurrentThread(),
+            _dispatcherQueue,
             loggerFactory);
+        _renderer.OnUnhandledException += OnRendererUnhandledException;
         Loaded += OnLoaded;
     }
 
@@ -38,5 +41,32 @@ public sealed partial class MainPage : Page
     {
         Loaded -= OnLoaded;
         await _renderer.MountRootComponentAsync<RootComponent>(RootHost);
+    }
+
+    private void OnRendererUnhandledException(object? sender, System.UnhandledExceptionEventArgs e)
+    {
+        var exception = e.ExceptionObject as Exception
+            ?? new Exception($"Renderer reported an unhandled exception: {e.ExceptionObject}");
+
+        if (_dispatcherQueue.HasThreadAccess)
+        {
+            _ = ShowRendererExceptionAsync(exception);
+            return;
+        }
+
+        _dispatcherQueue.TryEnqueue(() => _ = ShowRendererExceptionAsync(exception));
+    }
+
+    private async Task ShowRendererExceptionAsync(Exception exception)
+    {
+        var dialog = new ContentDialog
+        {
+            Title = "Renderer exception",
+            Content = exception.ToString(),
+            CloseButtonText = "Close",
+            XamlRoot = RootHost.XamlRoot
+        };
+
+        await dialog.ShowAsync();
     }
 }
