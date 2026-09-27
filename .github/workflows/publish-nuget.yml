@@ -1,0 +1,94 @@
+name: Publish Package to NuGet
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+  DOTNET_NOLOGO: 'true'
+
+concurrency:
+  group: publish-nuget-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Build, Pack and Publish
+    runs-on: windows-2022
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      PACKAGE_VERSION: 0.0.0
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Set package version from tag
+        shell: pwsh
+        run: |
+          $version = $env:GITHUB_REF_NAME -replace '^v', ''
+          "PACKAGE_VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Validate package version
+        shell: pwsh
+        run: |
+          if ($env:PACKAGE_VERSION -notmatch '^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$') {
+            throw 'Tag must use a SemVer version after the v prefix, for example v1.0.0 or v0.1.0-prerelease.'
+          }
+
+      - name: Restore
+        run: dotnet restore src/BlazorWinUI/BlazorWinUI.csproj
+
+      - name: Build library
+        run: dotnet build src/BlazorWinUI/BlazorWinUI.csproj --configuration Release --no-restore
+
+      - name: Pack NuGet package
+        shell: pwsh
+        run: |
+          dotnet pack src/BlazorWinUI/BlazorWinUI.csproj `
+            --configuration Release `
+            --no-build `
+            --no-restore `
+            --output artifacts `
+            "-p:PackageVersion=$env:PACKAGE_VERSION"
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: blazorwinui-${{ env.PACKAGE_VERSION }}
+          path: artifacts/*
+
+      - name: NuGet login (OIDC to temporary API key)
+        uses: NuGet/login@v1
+        id: nuget-login
+        with:
+          user: SathiyaramanM
+
+      - name: Publish to nuget.org
+        shell: pwsh
+        env:
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+        run: |
+          $packages = Get-ChildItem artifacts -Filter 'BlazorWinUI.*.nupkg'
+          if (-not $packages) {
+            throw 'No BlazorWinUI NuGet package was created.'
+          }
+
+          foreach ($package in $packages) {
+            dotnet nuget push $package.FullName `
+              --api-key $env:NUGET_API_KEY `
+              --source https://api.nuget.org/v3/index.json `
+              --skip-duplicate
+          }
