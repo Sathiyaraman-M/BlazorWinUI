@@ -1,0 +1,31 @@
+@using BlazorWinUI.Components
+@using Microsoft.UI.Xaml
+@using Microsoft.UI.Xaml.Controls
+@using Windows.UI.Text
+
+<StackPanel Spacing="16">
+    <TextBox Width="330" PlaceholderText="Search volumes" @bind-Text="search" />
+    <ListView SelectionMode="@(ListViewSelectionMode.None)">
+        @foreach (var volume in FilteredVolumes)
+        {
+            <ListViewItem @key="volume.Name">
+                <StackPanel Orientation="@(Orientation.Horizontal)" Padding="@(new Thickness(14, 12, 14, 12))" VerticalAlignment="@(VerticalAlignment.Center)">
+                    <StackPanel Width="390" Spacing="3"><TextBlock Text="@volume.Name" FontSize="13" FontWeight="@SemiBoldWeight" /><TextBlock Text="Local volume" FontSize="11" /></StackPanel>
+                    <TextBlock Text="@volume.UsedBy" Width="230" FontSize="12" VerticalAlignment="@(VerticalAlignment.Center)" />
+                    <TextBlock Text="@volume.Size" Width="120" FontSize="12" VerticalAlignment="@(VerticalAlignment.Center)" />
+                    <Button Text="Details" OnClick="@(() => OnDetails.InvokeAsync(volume))" />
+                </StackPanel>
+            </ListViewItem>
+        }
+    </ListView>
+</StackPanel>
+
+@code {
+    [Parameter, EditorRequired] public List<VolumeEntry> Volumes { get; set; } = [];
+    [Parameter] public EventCallback<VolumeEntry> OnDetails { get; set; }
+
+    private static FontWeight SemiBoldWeight => new() { Weight = 600 };
+    private string search = string.Empty;
+    private IEnumerable<VolumeEntry> FilteredVolumes => Volumes.Where(volume =>
+        string.IsNullOrWhiteSpace(search) || volume.Name.Contains(search, StringComparison.OrdinalIgnoreCase));
+}

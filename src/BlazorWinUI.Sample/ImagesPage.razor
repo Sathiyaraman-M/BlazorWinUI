@@ -1,0 +1,50 @@
+@using BlazorWinUI.Components
+@using Microsoft.UI.Xaml
+@using Microsoft.UI.Xaml.Controls
+@using Windows.UI.Text
+
+<StackPanel Spacing="16">
+    <StackPanel Orientation="@(Orientation.Horizontal)" Spacing="10">
+        <TextBox Width="330" PlaceholderText="Search images" @bind-Text="search" />
+        <ComboBox Width="150" SelectedIndex="@filterIndex" SelectedIndexChanged="OnFilterChanged">
+            <ComboBoxItem Text="All images" />
+            <ComboBoxItem Text="In use" />
+            <ComboBoxItem Text="Unused" />
+        </ComboBox>
+    </StackPanel>
+    <ListView SelectionMode="@(ListViewSelectionMode.None)">
+        <ListViewItem IsEnabled="false">
+            <StackPanel Orientation="@(Orientation.Horizontal)" Padding="@(new Thickness(12, 8, 12, 8))">
+                <TextBlock Text="IMAGE" FontSize="11" FontWeight="@SemiBoldWeight" Width="350" />
+                <TextBlock Text="TAG" FontSize="11" FontWeight="@SemiBoldWeight" Width="145" />
+                <TextBlock Text="SIZE" FontSize="11" FontWeight="@SemiBoldWeight" Width="120" />
+                <TextBlock Text="CONTAINERS" FontSize="11" FontWeight="@SemiBoldWeight" Width="130" />
+            </StackPanel>
+        </ListViewItem>
+        @foreach (var image in FilteredImages)
+        {
+            <ListViewItem @key="image.Name">
+                <StackPanel Orientation="@(Orientation.Horizontal)" Padding="@(new Thickness(12, 10, 12, 10))" VerticalAlignment="@(VerticalAlignment.Center)">
+                    <StackPanel Width="350" Spacing="3"><TextBlock Text="@image.Name" FontSize="13" FontWeight="@SemiBoldWeight" /><TextBlock Text="@($"Image ID: {image.Id}")" FontSize="11" /></StackPanel>
+                    <TextBlock Text="@image.Tag" Width="145" FontSize="12" VerticalAlignment="@(VerticalAlignment.Center)" />
+                    <TextBlock Text="@image.Size" Width="120" FontSize="12" VerticalAlignment="@(VerticalAlignment.Center)" />
+                    <TextBlock Text="@image.Containers" Width="130" FontSize="12" VerticalAlignment="@(VerticalAlignment.Center)" />
+                    <Button Text="Run" OnClick="@(() => OnRun.InvokeAsync(image))" />
+                </StackPanel>
+            </ListViewItem>
+        }
+    </ListView>
+</StackPanel>
+
+@code {
+    [Parameter, EditorRequired] public List<ImageEntry> Images { get; set; } = [];
+    [Parameter] public EventCallback<ImageEntry> OnRun { get; set; }
+
+    private static FontWeight SemiBoldWeight => new() { Weight = 600 };
+    private string search = string.Empty;
+    private int filterIndex;
+    private IEnumerable<ImageEntry> FilteredImages => Images.Where(image =>
+        (string.IsNullOrWhiteSpace(search) || image.Name.Contains(search, StringComparison.OrdinalIgnoreCase)) &&
+        (filterIndex == 0 || (filterIndex == 1 && image.Containers != "0") || (filterIndex == 2 && image.Containers == "0")));
+    private void OnFilterChanged(int value) => filterIndex = value;
+}

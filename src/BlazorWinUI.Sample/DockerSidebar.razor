@@ -1,0 +1,53 @@
+@using BlazorWinUI.Components
+@using Microsoft.UI.Xaml
+@using Microsoft.UI.Xaml.Controls
+@using Windows.UI.Text
+
+<StackPanel Width="252" Padding="@(new Thickness(16, 20, 12, 16))" Spacing="20">
+    <StackPanel Orientation="@(Orientation.Horizontal)" Spacing="10" VerticalAlignment="@(VerticalAlignment.Center)">
+        <TextBlock Text="🐳" FontSize="28" VerticalAlignment="@(VerticalAlignment.Center)" />
+        <StackPanel Spacing="1" VerticalAlignment="@(VerticalAlignment.Center)">
+            <TextBlock Text="Docker Desktop" FontSize="17" FontWeight="@SemiBoldWeight" />
+            <TextBlock Text="LOCAL ENVIRONMENT" FontSize="10" />
+        </StackPanel>
+    </StackPanel>
+
+    <ListView SelectionMode="@(ListViewSelectionMode.Single)" SelectedIndex="@SelectedIndex" SelectedIndexChanged="OnSelectionChanged">
+        @foreach (var item in NavigationItems)
+        {
+            <ListViewItem @key="item">@item</ListViewItem>
+        }
+    </ListView>
+
+    <StackPanel Spacing="7">
+        <TextBlock Text="DOCKER ENGINE" FontSize="11" FontWeight="@SemiBoldWeight" Margin="@(new Thickness(8, 0, 0, 2))" />
+        <StackPanel Orientation="@(Orientation.Horizontal)" Spacing="8" VerticalAlignment="@(VerticalAlignment.Center)">
+            <TextBlock Text="●" FontSize="11" VerticalAlignment="@(VerticalAlignment.Center)" />
+            <TextBlock Text="Engine running" FontSize="12" VerticalAlignment="@(VerticalAlignment.Center)" />
+        </StackPanel>
+        <TextBlock Text="Memory · 3.1 GB / 8 GB" FontSize="11" />
+        <ProgressBar Value="39" Maximum="100" Height="5" />
+    </StackPanel>
+
+    <StackPanel VerticalAlignment="@(VerticalAlignment.Bottom)" Spacing="4">
+        <Button Text="Settings" HorizontalAlignment="@(HorizontalAlignment.Stretch)" OnClick="OpenSettings" />
+        <Button Text="Troubleshoot" HorizontalAlignment="@(HorizontalAlignment.Stretch)" OnClick="OpenTroubleshoot" />
+        <TextBlock Text="Docker Engine 27.5.1" FontSize="11" Margin="@(new Thickness(8, 8, 0, 0))" />
+    </StackPanel>
+</StackPanel>
+
+@code {
+    [Parameter] public string CurrentPage { get; set; } = "Containers";
+    [Parameter] public EventCallback<string> OnNavigate { get; set; }
+
+    private static FontWeight SemiBoldWeight => new() { Weight = 600 };
+    private static string[] NavigationItems => ["Containers", "Images", "Volumes", "Builds", "Dev Environments", "Docker Hub"];
+    private int SelectedIndex => Array.IndexOf(NavigationItems, CurrentPage);
+
+    private Task OnSelectionChanged(int index) => index >= 0 && index < NavigationItems.Length
+        ? OnNavigate.InvokeAsync(NavigationItems[index])
+        : Task.CompletedTask;
+
+    private Task OpenSettings() => OnNavigate.InvokeAsync("Settings");
+    private Task OpenTroubleshoot() => OnNavigate.InvokeAsync("Troubleshoot");
+}

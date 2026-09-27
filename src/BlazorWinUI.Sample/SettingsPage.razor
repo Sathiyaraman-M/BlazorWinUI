@@ -1,0 +1,43 @@
+@using BlazorWinUI.Components
+@using Microsoft.UI.Xaml
+@using Microsoft.UI.Xaml.Controls
+@using Windows.UI.Text
+
+<StackPanel Spacing="12">
+    <TextBlock Text="Resources" FontSize="18" FontWeight="@SemiBoldWeight" />
+    <ListView SelectionMode="@(ListViewSelectionMode.None)">
+        <ListViewItem>
+            <StackPanel Orientation="@(Orientation.Horizontal)" Padding="@(new Thickness(14, 12, 14, 12))" VerticalAlignment="@(VerticalAlignment.Center)">
+                <StackPanel Width="560" Spacing="4"><TextBlock Text="Memory limit" FontSize="14" FontWeight="@SemiBoldWeight" /><TextBlock Text="Memory available to the Docker Engine" FontSize="12" /></StackPanel>
+                <Slider Width="220" Minimum="2" Maximum="16" StepFrequency="1" Value="@MemoryLimit" ValueChanged="OnMemoryLimitChanged" />
+                <TextBlock Text="@($"{MemoryLimit:0} GB")" Width="55" FontSize="12" VerticalAlignment="@(VerticalAlignment.Center)" />
+            </StackPanel>
+        </ListViewItem>
+        <ListViewItem>
+            <StackPanel Orientation="@(Orientation.Horizontal)" Padding="@(new Thickness(14, 12, 14, 12))" VerticalAlignment="@(VerticalAlignment.Center)">
+                <StackPanel Width="650" Spacing="4"><TextBlock Text="Start Docker Desktop when you sign in" FontSize="14" FontWeight="@SemiBoldWeight" /><TextBlock Text="Launch the app automatically when Windows starts" FontSize="12" /></StackPanel>
+                <ToggleSwitch IsOn="@StartOnLogin" IsOnChanged="OnStartOnLoginChanged" />
+            </StackPanel>
+        </ListViewItem>
+        <ListViewItem>
+            <StackPanel Orientation="@(Orientation.Horizontal)" Padding="@(new Thickness(14, 12, 14, 12))" VerticalAlignment="@(VerticalAlignment.Center)">
+                <StackPanel Width="650" Spacing="4"><TextBlock Text="Use containerd for pulling and storing images" FontSize="14" FontWeight="@SemiBoldWeight" /><TextBlock Text="Applies to newly pulled images" FontSize="12" /></StackPanel>
+                <ToggleSwitch IsOn="@ContainerdOn" IsOnChanged="OnContainerdChanged" />
+            </StackPanel>
+        </ListViewItem>
+    </ListView>
+</StackPanel>
+
+@code {
+    [Parameter] public double MemoryLimit { get; set; }
+    [Parameter] public EventCallback<double> MemoryLimitChanged { get; set; }
+    [Parameter] public bool StartOnLogin { get; set; }
+    [Parameter] public EventCallback<bool> StartOnLoginChanged { get; set; }
+    [Parameter] public bool ContainerdOn { get; set; }
+    [Parameter] public EventCallback<bool> ContainerdOnChanged { get; set; }
+
+    private static FontWeight SemiBoldWeight => new() { Weight = 600 };
+    private Task OnMemoryLimitChanged(double value) => MemoryLimitChanged.InvokeAsync(value);
+    private Task OnStartOnLoginChanged(bool value) => StartOnLoginChanged.InvokeAsync(value);
+    private Task OnContainerdChanged(bool value) => ContainerdOnChanged.InvokeAsync(value);
+}

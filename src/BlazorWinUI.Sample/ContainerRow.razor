@@ -1,0 +1,33 @@
+@using BlazorWinUI.Components
+@using Microsoft.UI.Xaml
+@using Microsoft.UI.Xaml.Controls
+@using Windows.UI.Text
+
+<ListViewItem>
+    <StackPanel Orientation="@(Orientation.Horizontal)" Padding="@(new Thickness(12, 12, 12, 12))" VerticalAlignment="@(VerticalAlignment.Center)">
+        <StackPanel Width="350" Spacing="3" VerticalAlignment="@(VerticalAlignment.Center)">
+            <TextBlock Text="@Container.Name" FontSize="12" FontWeight="@SemiBoldWeight" />
+            <TextBlock Text="@Container.Image" FontSize="10" />
+        </StackPanel>
+        <StackPanel Width="140" Orientation="@(Orientation.Horizontal)" Spacing="7" VerticalAlignment="@(VerticalAlignment.Center)">
+            <TextBlock Text="●" FontSize="10" VerticalAlignment="@(VerticalAlignment.Center)" />
+            <TextBlock Text="@Container.Status" FontSize="11" VerticalAlignment="@(VerticalAlignment.Center)" />
+        </StackPanel>
+        <TextBlock Text="@Container.Ports" Width="220" FontSize="10" VerticalAlignment="@(VerticalAlignment.Center)" />
+        <TextBlock Text="@Container.Created" Width="125" FontSize="10" VerticalAlignment="@(VerticalAlignment.Center)" />
+        <Button Text="@ActionText" OnClick="Toggle" />
+    </StackPanel>
+</ListViewItem>
+
+@code {
+    [Parameter, EditorRequired]
+    public ContainerEntry Container { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback OnToggle { get; set; }
+
+    private static FontWeight SemiBoldWeight => new() { Weight = 600 };
+    private string ActionText => Container.Running ? "■  Stop" : "▶  Start";
+
+    private Task Toggle() => OnToggle.InvokeAsync();
+}

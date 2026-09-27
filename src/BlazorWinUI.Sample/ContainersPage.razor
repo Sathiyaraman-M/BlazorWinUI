@@ -1,0 +1,57 @@
+@using BlazorWinUI.Components
+@using Microsoft.UI.Xaml
+@using Microsoft.UI.Xaml.Controls
+@using Windows.UI.Text
+
+<StackPanel Spacing="16">
+    <InfoBar Title="Docker Engine is running" Message="Your local environment is ready." Severity="@(InfoBarSeverity.Success)" IsOpen="true" IsClosable="false" />
+    <StackPanel Orientation="@(Orientation.Horizontal)" Spacing="18" VerticalAlignment="@(VerticalAlignment.Center)">
+        <TextBlock Text="@($"{RunningCount} running")" FontSize="14" FontWeight="@SemiBoldWeight" />
+        <TextBlock Text="@($"{StoppedCount} stopped")" FontSize="14" />
+        <TextBlock Text="@($"{Containers.Count} total")" FontSize="14" />
+    </StackPanel>
+    <StackPanel Orientation="@(Orientation.Horizontal)" Spacing="10">
+        <TextBox Width="280" PlaceholderText="Search containers" @bind-Text="search" />
+        <ComboBox Width="155" SelectedIndex="@statusFilterIndex" SelectedIndexChanged="OnStatusFilterChanged">
+            <ComboBoxItem Text="All statuses" />
+            <ComboBoxItem Text="Running" />
+            <ComboBoxItem Text="Stopped" />
+        </ComboBox>
+    </StackPanel>
+    <ListView SelectionMode="@(ListViewSelectionMode.None)">
+        <ListViewItem IsEnabled="false">
+            <StackPanel Orientation="@(Orientation.Horizontal)" Padding="@(new Thickness(12, 8, 12, 8))">
+                <TextBlock Text="CONTAINER / IMAGE" FontSize="11" FontWeight="@SemiBoldWeight" Width="350" />
+                <TextBlock Text="STATUS" FontSize="11" FontWeight="@SemiBoldWeight" Width="140" />
+                <TextBlock Text="PORTS" FontSize="11" FontWeight="@SemiBoldWeight" Width="220" />
+                <TextBlock Text="CREATED" FontSize="11" FontWeight="@SemiBoldWeight" Width="125" />
+            </StackPanel>
+        </ListViewItem>
+        @foreach (var container in FilteredContainers)
+        {
+            <ContainerRow @key="container.Id" Container="container" OnToggle="@(() => OnToggle.InvokeAsync(container))" />
+        }
+    </ListView>
+    @if (!FilteredContainers.Any())
+    {
+        <StackPanel Padding="@(new Thickness(24))" Spacing="6" HorizontalAlignment="@(HorizontalAlignment.Center)">
+            <TextBlock Text="No containers match this view" FontSize="16" FontWeight="@SemiBoldWeight" HorizontalTextAlignment="@(TextAlignment.Center)" />
+            <TextBlock Text="Change the search or status filter, or run a new container." FontSize="12" HorizontalTextAlignment="@(TextAlignment.Center)" />
+        </StackPanel>
+    }
+</StackPanel>
+
+@code {
+    [Parameter, EditorRequired] public List<ContainerEntry> Containers { get; set; } = [];
+    [Parameter] public EventCallback<ContainerEntry> OnToggle { get; set; }
+
+    private static FontWeight SemiBoldWeight => new() { Weight = 600 };
+    private string search = string.Empty;
+    private int statusFilterIndex;
+    private int RunningCount => Containers.Count(container => container.Running);
+    private int StoppedCount => Containers.Count - RunningCount;
+    private IEnumerable<ContainerEntry> FilteredContainers => Containers.Where(container =>
+        (string.IsNullOrWhiteSpace(search) || container.Name.Contains(search, StringComparison.OrdinalIgnoreCase) || container.Image.Contains(search, StringComparison.OrdinalIgnoreCase)) &&
+        (statusFilterIndex == 0 || (statusFilterIndex == 1 && container.Running) || (statusFilterIndex == 2 && !container.Running)));
+    private void OnStatusFilterChanged(int value) => statusFilterIndex = value;
+}

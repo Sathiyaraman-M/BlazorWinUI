@@ -1,0 +1,75 @@
+@using BlazorWinUI.Components
+@using Microsoft.UI.Xaml
+@using Microsoft.UI.Xaml.Controls
+@using Windows.UI.Text
+
+@if (Page == "Builds")
+{
+    <StackPanel Spacing="16">
+        <InfoBar Title="BuildKit is ready" Message="Build images from a Dockerfile or use a Compose project." Severity="@(InfoBarSeverity.Informational)" IsOpen="true" IsClosable="false" />
+        <StackPanel Orientation="@(Orientation.Horizontal)" Spacing="10">
+            <TextBox Width="580" PlaceholderText="Path to Dockerfile or project" @bind-Text="buildPath" />
+            <Button Text="Build image" OnClick="BuildImage" />
+        </StackPanel>
+        <ListView SelectionMode="@(ListViewSelectionMode.None)">
+            <ListViewItem IsEnabled="false" Text="RECENT BUILDS" />
+            <ListViewItem Text="web-frontend   ·   Completed   ·   2 minutes ago   ·   18.4 MB" />
+            <ListViewItem Text="api-server      ·   Completed   ·   Yesterday      ·   42.1 MB" />
+        </ListView>
+    </StackPanel>
+}
+else if (Page == "Dev Environments")
+{
+    <StackPanel Spacing="12">
+        <TextBlock Text="Create a consistent development environment" FontSize="18" FontWeight="@SemiBoldWeight" />
+        <TextBlock Text="Connect a source repository and Docker Desktop will prepare a containerized workspace." FontSize="13" TextWrapping="@(TextWrapping.Wrap)" />
+        <StackPanel Orientation="@(Orientation.Horizontal)" Spacing="10">
+            <TextBox Width="530" PlaceholderText="Git repository URL" @bind-Text="repositoryUrl" />
+            <Button Text="Create environment" OnClick="CreateEnvironment" />
+        </StackPanel>
+        <ListView SelectionMode="@(ListViewSelectionMode.None)"><ListViewItem Text="No active development environments" /></ListView>
+    </StackPanel>
+}
+else if (Page == "Docker Hub")
+{
+    <StackPanel Spacing="14">
+        <TextBlock Text="Find images on Docker Hub" FontSize="18" FontWeight="@SemiBoldWeight" />
+        <StackPanel Orientation="@(Orientation.Horizontal)" Spacing="10">
+            <TextBox Width="500" PlaceholderText="Search repositories" @bind-Text="hubSearch" />
+            <Button Text="Search" OnClick="SearchHub" />
+        </StackPanel>
+        <TextBlock Text="Popular images" FontSize="15" FontWeight="@SemiBoldWeight" />
+        <ListView SelectionMode="@(ListViewSelectionMode.None)">
+            <ListViewItem Text="nginx   ·   Official image   ·   High performance web server" />
+            <ListViewItem Text="redis   ·   Official image   ·   In-memory data store" />
+            <ListViewItem Text="postgres   ·   Official image   ·   Open source relational database" />
+        </ListView>
+    </StackPanel>
+}
+else
+{
+    <StackPanel Spacing="14">
+        <InfoBar Title="Troubleshoot Docker Desktop" Message="Review engine status, restart the engine, or gather diagnostics." Severity="@(InfoBarSeverity.Informational)" IsOpen="true" IsClosable="false" />
+        <StackPanel Orientation="@(Orientation.Horizontal)" Spacing="10">
+            <Button Text="Restart Docker Engine" OnClick="RestartEngine" />
+            <Button Text="Gather diagnostics" OnClick="GatherDiagnostics" />
+        </StackPanel>
+    </StackPanel>
+}
+
+@code {
+    [Parameter, EditorRequired] public string Page { get; set; } = string.Empty;
+    [Parameter] public EventCallback<NoticeMessage> OnNotice { get; set; }
+
+    private static FontWeight SemiBoldWeight => new() { Weight = 600 };
+    private string buildPath = string.Empty;
+    private string repositoryUrl = string.Empty;
+    private string hubSearch = string.Empty;
+
+    private Task BuildImage() => Notice("Build queued", string.IsNullOrWhiteSpace(buildPath) ? "Choose a project path to start a build." : $"Build started for {buildPath}.");
+    private Task CreateEnvironment() => Notice("Development environment", string.IsNullOrWhiteSpace(repositoryUrl) ? "Enter a Git repository URL first." : $"Preparing environment for {repositoryUrl}.");
+    private Task SearchHub() => Notice("Docker Hub", string.IsNullOrWhiteSpace(hubSearch) ? "Enter an image or repository name to search." : $"Showing popular matches for {hubSearch}.");
+    private Task RestartEngine() => Notice("Docker Engine restarted", "The local Docker Engine is running.");
+    private Task GatherDiagnostics() => Notice("Diagnostics ready", "A diagnostic bundle has been prepared.");
+    private Task Notice(string title, string message) => OnNotice.InvokeAsync(new NoticeMessage(title, message));
+}

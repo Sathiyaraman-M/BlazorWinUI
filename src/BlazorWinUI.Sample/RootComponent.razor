@@ -1,21 +1,161 @@
 @using BlazorWinUI.Components
+@using Microsoft.UI.Xaml
+@using Microsoft.UI.Xaml.Controls
+@using Windows.UI.Text
 
-<StackPanel>
-    <TextBox @bind-Text="name" PlaceholderText="Your name" />
-    <TextBlock Text="@Greeting" />
-    <Button Text="Increment" OnClick="IncrementCount" />
-    <TextBlock Text="@CountText" />
+<StackPanel Orientation="@(Orientation.Horizontal)">
+    <DockerSidebar CurrentPage="@currentPage" OnNavigate="Navigate" />
+
+    <ScrollViewer VerticalScrollBarVisibility="@(ScrollBarVisibility.Auto)" HorizontalScrollBarVisibility="@(ScrollBarVisibility.Disabled)">
+        <StackPanel Width="1000" Padding="@(new Thickness(36, 28, 40, 36))" Spacing="22">
+            <StackPanel Orientation="@(Orientation.Horizontal)" VerticalAlignment="@(VerticalAlignment.Center)">
+                <StackPanel Width="700" Spacing="3">
+                    <TextBlock Text="Docker Desktop" FontSize="12" />
+                    <TextBlock Text="@currentPage" FontSize="30" FontWeight="@BoldWeight" />
+                    <TextBlock Text="@PageDescription" FontSize="13" />
+                </StackPanel>
+                @if (currentPage == "Containers")
+                {
+                    <Button Text="Run new container" OnClick="RunNewContainer" />
+                }
+                else if (currentPage == "Images")
+                {
+                    <Button Text="Pull" OnClick="PullImage" />
+                }
+                else if (currentPage == "Volumes")
+                {
+                    <Button Text="Create volume" OnClick="CreateVolume" />
+                }
+            </StackPanel>
+
+            @if (noticeOpen)
+            {
+                <InfoBar Title="@noticeTitle" Message="@noticeMessage" Severity="@(InfoBarSeverity.Informational)" IsOpen="true" IsClosable="true" OnClosed="CloseNotice" />
+            }
+
+            @switch (currentPage)
+            {
+                case "Containers":
+                    <ContainersPage Containers="@containers" OnToggle="ToggleContainer" />
+                    break;
+                case "Images":
+                    <ImagesPage Images="@images" OnRun="RunImage" />
+                    break;
+                case "Volumes":
+                    <VolumesPage Volumes="@volumes" OnDetails="ShowVolumeDetails" />
+                    break;
+                case "Settings":
+                    <SettingsPage MemoryLimit="@memoryLimit" MemoryLimitChanged="OnMemoryLimitChanged" StartOnLogin="@startOnLogin" StartOnLoginChanged="OnStartOnLoginChanged" ContainerdOn="@containerdOn" ContainerdOnChanged="OnContainerdChanged" />
+                    break;
+                default:
+                    <AuxiliaryPage Page="@currentPage" OnNotice="ShowNotice" />
+                    break;
+            }
+
+            <TextBlock Text="Context: desktop-linux" FontSize="11" HorizontalTextAlignment="@(TextAlignment.Center)" />
+        </StackPanel>
+    </ScrollViewer>
 </StackPanel>
 
 @code {
-    private int currentCount;
-    private string name = string.Empty;
+    private static FontWeight BoldWeight => new() { Weight = 700 };
 
-    private string Greeting => $"Hello, {name}";
-    private string CountText => $"Current count: {currentCount}";
+    private readonly List<ContainerEntry> containers =
+    [
+        new("web-frontend", "nginx:1.27-alpine", "Running", "0.0.0.0:8080 → 80/tcp", "2 minutes ago", true),
+        new("api-server", "node:22-alpine", "Running", "0.0.0.0:3000 → 3000/tcp", "18 minutes ago", true),
+        new("redis-cache", "redis:7.4", "Exited (0)", "—", "Yesterday", false),
+        new("postgres-db", "postgres:16", "Exited (0)", "—", "3 days ago", false)
+    ];
 
-    private void IncrementCount()
+    private readonly List<ImageEntry> images =
+    [
+        new("nginx", "sha256:8f3c…a21d", "1.27-alpine", "42.7 MB", "1"),
+        new("node", "sha256:41e9…f6b2", "22-alpine", "132 MB", "1"),
+        new("redis", "sha256:201c…d114", "7.4", "117 MB", "0"),
+        new("postgres", "sha256:99ad…1b8c", "16", "438 MB", "0")
+    ];
+
+    private readonly List<VolumeEntry> volumes =
+    [
+        new("web-data", "web-frontend", "128 MB"),
+        new("postgres-data", "postgres-db", "2.1 GB"),
+        new("redis-data", "—", "24 MB")
+    ];
+
+    private string currentPage = "Containers";
+    private double memoryLimit = 8;
+    private bool startOnLogin = true;
+    private bool containerdOn = true;
+    private bool noticeOpen;
+    private string noticeTitle = string.Empty;
+    private string noticeMessage = string.Empty;
+
+    private string PageDescription => currentPage switch
     {
-        currentCount++;
+        "Containers" => "Manage the containers running in your local environment.",
+        "Images" => "Browse, pull and run container images.",
+        "Volumes" => "Manage persistent data used by your containers.",
+        "Builds" => "Build container images from your projects.",
+        "Dev Environments" => "Create consistent, containerized development workspaces.",
+        "Docker Hub" => "Discover and pull images from Docker Hub.",
+        "Settings" => "Configure Docker Desktop and your local resources.",
+        _ => "Check Docker Engine status and collect diagnostics."
+    };
+
+    private void Navigate(string page)
+    {
+        currentPage = page;
+        noticeOpen = false;
     }
+
+    private void ToggleContainer(ContainerEntry container)
+    {
+        container.Running = !container.Running;
+        container.Status = container.Running ? "Running" : "Exited (0)";
+    }
+
+    private void RunNewContainer()
+    {
+        containers.Insert(0, new ContainerEntry("new-container", "hello-world:latest", "Running", "—", "Just now", true));
+        ShowNotice("Container started", "new-container is now running.");
+    }
+
+    private void RunImage(ImageEntry image)
+    {
+        containers.Insert(0, new ContainerEntry(image.Name + "-1", image.Name + ":" + image.Tag, "Running", "—", "Just now", true));
+        Navigate("Containers");
+        ShowNotice("Container started", $"A container was started from {image.Name}:{image.Tag}.");
+    }
+
+    private void PullImage()
+    {
+        if (images.All(image => image.Name != "hello-world"))
+        {
+            images.Insert(0, new ImageEntry("hello-world", "sha256:61c1…c3a1", "latest", "13.3 kB", "0"));
+        }
+
+        ShowNotice("Image pulled", "hello-world:latest is now available locally.");
+    }
+
+    private void CreateVolume()
+    {
+        volumes.Insert(0, new VolumeEntry("new-volume", "—", "0 B"));
+        ShowNotice("Volume created", "new-volume is ready to use.");
+    }
+
+    private void ShowVolumeDetails(VolumeEntry volume) => ShowNotice(volume.Name, $"Used by: {volume.UsedBy} · Size: {volume.Size}");
+    private void OnMemoryLimitChanged(double value) => memoryLimit = value;
+    private void OnStartOnLoginChanged(bool value) => startOnLogin = value;
+    private void OnContainerdChanged(bool value) => containerdOn = value;
+    private void CloseNotice() => noticeOpen = false;
+
+    private void ShowNotice(NoticeMessage notice)
+    {
+        noticeTitle = notice.Title;
+        noticeMessage = notice.Message;
+        noticeOpen = true;
+    }
+
+    private void ShowNotice(string title, string message) => ShowNotice(new NoticeMessage(title, message));
 }
