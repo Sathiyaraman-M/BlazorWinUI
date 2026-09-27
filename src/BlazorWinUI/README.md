@@ -44,4 +44,4 @@ When a parameter is removed on a later render, the adapter restores the value ca
 
 Built-in adapters are registered automatically. A renderer can replace a mapping with `RegisterAdapter<TComponent, TAdapter>()` before mounting the component. The adapter implements `IAdapter` and, for components that own children, `IControlContainer`.
 
-This is a native-control renderer, not a web renderer: HTML elements, general item templates/virtualization, and automatic conversion for arbitrary object-valued WinUI properties are not provided. Use the exposed WinUI property types directly, and prefer child components for native visual content.
+Ordinary Razor components can be used to compose and reuse a screen; they are transparent to the native visual tree, and their native-control descendants are attached to the nearest WinUI container. This is a native-control renderer, not a web renderer: HTML elements, general item templates/virtualization, and automatic conversion for arbitrary object-valued WinUI properties are not provided. Use the exposed WinUI property types directly, and prefer child components for native visual content.

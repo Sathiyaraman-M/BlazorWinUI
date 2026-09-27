@@ -20,6 +20,7 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
 {
     private readonly WinUIDispatcher _dispatcher = new(dispatcherQueue);
     private readonly ILogger<WinUIRenderer> _logger = loggerFactory.CreateLogger<WinUIRenderer>();
+    private readonly Dictionary<int, int> _componentParents = [];
 
     public override Dispatcher Dispatcher => _dispatcher;
 
@@ -95,23 +96,17 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
         if (!NativeControls.TryGetValue(componentId, out var parent) ||
             parent.Container is not IControlContainer container)
         {
+            if (TryFindNativeContainerAncestor(componentId, out var ancestor))
+            {
+                ApplyComponentRenderTree(ancestor.ComponentId);
+            }
+
             return;
         }
 
-        var frames = GetCurrentRenderTreeFrames(componentId);
         var seen = new HashSet<int>();
-        var desiredChildren = new List<NativeControl>();
-
-        foreach (var frameIndex in EnumerateComponentFrames(frames.Array, 0, frames.Count))
-        {
-            var frame = frames.Array[frameIndex];
-            var child = EnsureControl(frame, frames.Array, frameIndex);
-            seen.Add(child.ComponentId);
-
-            child.Parent ??= parent;
-
-            desiredChildren.Add(child);
-        }
+        var visitedComponents = new HashSet<int> { componentId };
+        var desiredChildren = EnumerateVisualChildren(componentId, parent, seen, visitedComponents).ToList();
 
         var childrenChanged = parent.Children.Count != desiredChildren.Count;
         if (!childrenChanged)
@@ -143,6 +138,77 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
         {
             container.SetChildren([.. desiredChildren.Select(child => child.Adapter!.Element)]);
         }
+    }
+
+    private IEnumerable<NativeControl> EnumerateVisualChildren(
+        int ownerComponentId,
+        NativeControl nativeParent,
+        HashSet<int> seenNativeControls,
+        HashSet<int> visitedComponents)
+    {
+        var frames = GetCurrentRenderTreeFrames(ownerComponentId);
+
+        foreach (var frameIndex in EnumerateComponentFrames(frames.Array, 0, frames.Count))
+        {
+            var frame = frames.Array[frameIndex];
+            var childComponentId = frame.ComponentId;
+            _componentParents[childComponentId] = ownerComponentId;
+
+            if (AdapterResolver.HasAdapter(frame.ComponentType))
+            {
+                var child = EnsureControl(frame, frames.Array, frameIndex);
+                if (!seenNativeControls.Add(child.ComponentId))
+                {
+                    continue;
+                }
+
+                if (child.Parent is { } previousParent && !ReferenceEquals(previousParent, nativeParent))
+                {
+                    previousParent.Children.Remove(child);
+                }
+
+                child.Parent = nativeParent;
+                yield return child;
+                continue;
+            }
+
+            // Ordinary Razor components have no native adapter of their own. Flatten their
+            // output into the nearest native container while keeping their component IDs in
+            // the ownership chain so their later renders can trigger the same reconciliation.
+            if (visitedComponents.Add(childComponentId))
+            {
+                foreach (var descendant in EnumerateVisualChildren(
+                    childComponentId,
+                    nativeParent,
+                    seenNativeControls,
+                    visitedComponents))
+                {
+                    yield return descendant;
+                }
+            }
+        }
+    }
+
+    private bool TryFindNativeContainerAncestor(int componentId, out NativeControl ancestor)
+    {
+        var visited = new HashSet<int>();
+        var currentComponentId = componentId;
+
+        while (_componentParents.TryGetValue(currentComponentId, out var parentComponentId) &&
+               visited.Add(currentComponentId))
+        {
+            if (NativeControls.TryGetValue(parentComponentId, out var parent) &&
+                parent.Container is not null)
+            {
+                ancestor = parent;
+                return true;
+            }
+
+            currentComponentId = parentComponentId;
+        }
+
+        ancestor = null!;
+        return false;
     }
 
     private NativeControl EnsureControl(RenderTreeFrame frame, RenderTreeFrame[] frames, int frameIndex)
@@ -208,6 +274,8 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
 
     private void DisposeControls(int componentId)
     {
+        _componentParents.Remove(componentId);
+
         if (NativeControls.TryGetValue(componentId, out var control))
         {
             control.Parent?.Children.Remove(control);

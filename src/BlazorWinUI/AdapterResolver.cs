@@ -23,6 +23,12 @@ internal sealed class AdapterResolver(IServiceProvider services)
         return resolver;
     }
 
+    public bool HasAdapter(Type componentType)
+    {
+        ArgumentNullException.ThrowIfNull(componentType);
+        return _registrations.ContainsKey(componentType);
+    }
+
     public IAdapter Create(Type componentType)
     {
         ArgumentNullException.ThrowIfNull(componentType);
