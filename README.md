@@ -23,4 +23,4 @@ To support having the razor files in your project, you have to make the followin
 </ItemGroup>
 ```
 
-Refer to the [sample project](src\BlazorWinUI.Sample) on how to setup the `WinUIRenderer` and mount blazor components.
+Refer to the [sample project](src/BlazorWinUI.Sample) on how to setup the `WinUIRenderer` and mount blazor components.
