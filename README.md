@@ -7,7 +7,7 @@ Project to build native windows applications using Blazor with a special WinUI-b
 Add the package to a .NET 10 WinUI project:
 
 ```bash
-dotnet add package BlazorWinUI
+dotnet add package BlazorWinUI --prerelease
 ```
 
 > [!NOTE]
