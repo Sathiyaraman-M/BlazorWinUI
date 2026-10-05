@@ -83,6 +83,9 @@ public sealed class WinUIControlGenerator : IIncrementalGenerator
             [E("SelectedIndexChanged", "global::Microsoft.AspNetCore.Components.EventCallback<int>", "SelectionChanged", "global::Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs", "_control.SelectedIndex")]),
         new("ComboBoxItem", ContainerKind.Content,
             [P("Text", "Content", "global::System.String?"), P("IsSelected"), P("IsEnabled")]),
+        new("NavigationView", ContainerKind.NavigationView, []),
+        new("NavigationViewItem", ContainerKind.Content, []),
+        new("NavigationViewItemSeparator", ContainerKind.None, []),
         new("ListView", ContainerKind.Items,
             [P("SelectedIndex"), P("SelectionMode"), P("IsItemClickEnabled"), P("IsEnabled")],
             [E("SelectedIndexChanged", "global::Microsoft.AspNetCore.Components.EventCallback<int>", "SelectionChanged", "global::Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs", "_control.SelectedIndex")]),
@@ -349,6 +352,7 @@ public sealed class WinUIControlGenerator : IIncrementalGenerator
         {
             ContainerKind.Panel => propertyName == "Children",
             ContainerKind.Items => propertyName == "Items",
+            ContainerKind.NavigationView => propertyName is "Content" or "MenuItems" or "FooterMenuItems",
             _ => false
         };
     }
@@ -676,6 +680,27 @@ public sealed class WinUIControlGenerator : IIncrementalGenerator
                     source.AppendLine("        _control.Items.Clear();");
                     source.AppendLine("        foreach (var child in children) _control.Items.Add(child);");
                     break;
+                case ContainerKind.NavigationView:
+                    // NavigationView combines a menu-item collection with one separate content child.
+                    source.AppendLine("        _control.MenuItems.Clear();");
+                    source.AppendLine("        global::Microsoft.UI.Xaml.FrameworkElement? content = null;");
+                    source.AppendLine("        foreach (var child in children)");
+                    source.AppendLine("        {");
+                    source.AppendLine("            if (child is global::Microsoft.UI.Xaml.Controls.NavigationViewItemBase)");
+                    source.AppendLine("            {");
+                    source.AppendLine("                _control.MenuItems.Add(child);");
+                    source.AppendLine("            }");
+                    source.AppendLine("            else if (content is null)");
+                    source.AppendLine("            {");
+                    source.AppendLine("                content = child;");
+                    source.AppendLine("            }");
+                    source.AppendLine("            else");
+                    source.AppendLine("            {");
+                    source.AppendLine("                throw new global::System.InvalidOperationException(\"NavigationView accepts navigation item children and at most one content child.\");");
+                    source.AppendLine("            }");
+                    source.AppendLine("        }");
+                    source.AppendLine("        _control.Content = content;");
+                    break;
             }
 
             source.AppendLine("    }");
@@ -800,7 +825,8 @@ public sealed class WinUIControlGenerator : IIncrementalGenerator
         Panel,
         Content,
         Child,
-        Items
+        Items,
+        NavigationView
     }
 
     private sealed class ControlDefinition(
