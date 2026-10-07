@@ -15,17 +15,8 @@
     <None Include="../../README.md" Pack="true" PackagePath="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlazorWinUI.Generators\BlazorWinUI.Generators.csproj"
-                      OutputItemType="Analyzer"
-                      ReferenceOutputAssembly="false" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" />
   </ItemGroup>
-  <PropertyGroup>
-    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-    <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)generated</CompilerGeneratedFilesOutputPath>
-  </PropertyGroup>
 </Project>

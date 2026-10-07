@@ -1,6 +1,5 @@
 <Solution>
-  <Project Path="src/BlazorWinUI.Generators/BlazorWinUI.Generators.csproj" />
-  <Project Path="tests/BlazorWinUI.Generators.Tests/BlazorWinUI.Generators.Tests.csproj" />
+  <Project Path="tests/BlazorWinUI.Tests/BlazorWinUI.Tests.csproj" />
   <Project Path="src/BlazorWinUI/BlazorWinUI.csproj" />
   <Project Path="src/BlazorWinUI.Sample/BlazorWinUI.Sample.csproj">
     <Platform Project="x86" />

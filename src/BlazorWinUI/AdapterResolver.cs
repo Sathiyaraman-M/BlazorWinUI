@@ -19,7 +19,7 @@ internal sealed class AdapterResolver(IServiceProvider services)
     public static AdapterResolver CreateDefault(IServiceProvider services)
     {
         var resolver = new AdapterResolver(services);
-        GeneratedAdapterRegistry.RegisterDefaults(resolver);
+        DefaultAdapterRegistry.RegisterDefaults(resolver);
         return resolver;
     }
 
