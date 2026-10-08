@@ -1,3 +1,8 @@
+using BlazorWinUI;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -31,7 +36,25 @@ public partial class App : Application
     public App()
     {
         InitializeComponent();
+        var dispatcherQueue = DispatcherQueue.GetForCurrentThread()
+            ?? throw new InvalidOperationException("The application must initialize BlazorWinUI on the WinUI UI thread.");
+
+        Services = new ServiceCollection()
+            .AddLogging()
+            .AddBlazorWinUI(dispatcherQueue)
+            .BuildServiceProvider();
+        Renderer = Services.GetRequiredService<WinUIRenderer>();
     }
+
+    /// <summary>
+    /// Application service provider shared by Blazor components and WinUI views.
+    /// </summary>
+    public IServiceProvider Services { get; }
+
+    /// <summary>
+    /// Renderer shared by Blazor component hosts on the application's UI dispatcher.
+    /// </summary>
+    public WinUIRenderer Renderer { get; }
 
     /// <summary>
     /// Invoked when the application is launched.

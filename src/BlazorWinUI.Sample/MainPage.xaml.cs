@@ -1,8 +1,7 @@
 using BlazorWinUI;
 
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -16,37 +15,59 @@ namespace BlazorWinUI_Sample;
 /// </summary>
 public sealed partial class MainPage : Page
 {
-    private readonly WinUIRenderer _renderer;
     private readonly DispatcherQueue _dispatcherQueue;
+    private bool _isRendererExceptionHandlerRegistered;
+
+    public WinUIRenderer Renderer => ((App)Application.Current).Renderer;
+
+    public Type RootComponentType => typeof(RootComponent);
 
     public MainPage()
     {
         InitializeComponent();
 
-        var services = new ServiceCollection()
-            .AddLogging()
-            .BuildServiceProvider();
-        var loggerFactory = services.GetRequiredService<ILoggerFactory>();
-        _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-
-        _renderer = new WinUIRenderer(
-            services,
-            _dispatcherQueue,
-            loggerFactory);
-        _renderer.OnUnhandledException += OnRendererUnhandledException;
-        Loaded += OnLoaded;
+        _dispatcherQueue = DispatcherQueue.GetForCurrentThread()
+            ?? throw new InvalidOperationException("The sample page must be created on the WinUI UI thread.");
+        Loaded += OnPageLoaded;
+        Unloaded += OnPageUnloaded;
     }
 
-    private async void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void OnPageLoaded(object sender, RoutedEventArgs args)
     {
-        Loaded -= OnLoaded;
-        await _renderer.MountRootComponentAsync<RootComponent>(RootHost);
+        if (_isRendererExceptionHandlerRegistered)
+        {
+            return;
+        }
+
+        Renderer.UnhandledException += OnRendererUnhandledException;
+        _isRendererExceptionHandlerRegistered = true;
+    }
+
+    private void OnPageUnloaded(object sender, RoutedEventArgs args)
+    {
+        if (!_isRendererExceptionHandlerRegistered)
+        {
+            return;
+        }
+
+        Renderer.UnhandledException -= OnRendererUnhandledException;
+        _isRendererExceptionHandlerRegistered = false;
+    }
+
+    private void RootHost_OnHostError(object? sender, System.UnhandledExceptionEventArgs e)
+    {
+        ShowException(e.ExceptionObject);
     }
 
     private void OnRendererUnhandledException(object? sender, System.UnhandledExceptionEventArgs e)
     {
-        var exception = e.ExceptionObject as Exception
-            ?? new Exception($"Renderer reported an unhandled exception: {e.ExceptionObject}");
+        ShowException(e.ExceptionObject);
+    }
+
+    private void ShowException(object? exceptionObject)
+    {
+        var exception = exceptionObject as Exception
+            ?? new Exception($"BlazorWinUI reported an unhandled exception: {exceptionObject}");
 
         if (_dispatcherQueue.HasThreadAccess)
         {

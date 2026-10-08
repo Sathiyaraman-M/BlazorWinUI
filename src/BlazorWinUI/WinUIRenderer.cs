@@ -21,6 +21,8 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
     private readonly WinUIDispatcher _dispatcher = new(dispatcherQueue);
     private readonly ILogger<WinUIRenderer> _logger = loggerFactory.CreateLogger<WinUIRenderer>();
     private readonly Dictionary<int, int> _componentParents = [];
+    private readonly Dictionary<int, RootComponentRegistration> _rootsById = [];
+    private readonly Dictionary<Panel, RootComponentRegistration> _rootsByPanel = new(ReferenceEqualityComparer.Instance);
 
     public override Dispatcher Dispatcher => _dispatcher;
 
@@ -28,7 +30,17 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
     internal AdapterResolver AdapterResolver { get; } = serviceProvider.GetService<AdapterResolver>()
         ?? AdapterResolver.CreateDefault(serviceProvider);
 
-    public event EventHandler<UnhandledExceptionEventArgs>? OnUnhandledException;
+    public event EventHandler<UnhandledExceptionEventArgs>? UnhandledException;
+
+    /// <summary>
+    /// Compatibility alias for <see cref="UnhandledException"/>.
+    /// </summary>
+    [Obsolete("Subscribe to UnhandledException instead.")]
+    public event EventHandler<UnhandledExceptionEventArgs>? OnUnhandledException
+    {
+        add => UnhandledException += value;
+        remove => UnhandledException -= value;
+    }
 
     /// <summary>
     /// Registers the native adapter used to render a Blazor component.
@@ -51,27 +63,97 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
     /// </summary>
     public Task<int> MountRootComponentAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent>(Panel host, ParameterView parameters) where TComponent : IComponent
     {
+        return MountRootComponentAsync(typeof(TComponent), host, parameters);
+    }
+
+    /// <summary>
+    /// Mounts a new root Blazor component selected by runtime type with parameters.
+    /// </summary>
+    public Task<int> MountRootComponentAsync(
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type componentType,
+        Panel host,
+        ParameterView parameters)
+    {
+        ArgumentNullException.ThrowIfNull(componentType);
         ArgumentNullException.ThrowIfNull(host);
+        if (!IsValidComponentType(componentType))
+        {
+            throw new ArgumentException(
+                $"Component type '{componentType.FullName}' must be a concrete, closed type that implements {nameof(IComponent)}.",
+                nameof(componentType));
+        }
 
         return Dispatcher.InvokeAsync(async () =>
         {
-            var component = InstantiateComponent(typeof(TComponent));
+            if (_rootsByPanel.ContainsKey(host))
+            {
+                throw new InvalidOperationException(
+                    "The WinUI panel already has a mounted root component. Update or unmount that root before mounting another.");
+            }
+
+            var component = InstantiateComponent(componentType);
             var componentId = AssignRootComponentId(component);
             var rootHost = new RootPanelHost(host);
             var root = new NativeControl(componentId, adapter: null, container: rootHost);
+            var registration = new RootComponentRegistration(componentId, rootHost);
 
             NativeControls.Add(componentId, root);
+            _rootsById.Add(componentId, registration);
+            _rootsByPanel.Add(host, registration);
             rootHost.SetChildren([]);
-            await RenderRootComponentAsync(componentId, parameters);
 
-            return componentId;
+            try
+            {
+                await RenderRootComponentAsync(componentId, parameters);
+                return componentId;
+            }
+            catch
+            {
+                await UnmountRootComponentCoreAsync(componentId);
+                throw;
+            }
+        });
+    }
+
+    /// <summary>
+    /// Mounts a new root Blazor component selected by runtime type.
+    /// </summary>
+    public Task<int> MountRootComponentAsync(
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type componentType,
+        Panel host)
+    {
+        return MountRootComponentAsync(componentType, host, ParameterView.Empty);
+    }
+
+    /// <summary>
+    /// Removes a mounted root component and disposes its component and native-control tree.
+    /// </summary>
+    public Task UnmountRootComponentAsync(int componentId)
+    {
+        return Dispatcher.InvokeAsync(() => UnmountRootComponentCoreAsync(componentId));
+    }
+
+    /// <summary>
+    /// Updates the parameters of a mounted root component.
+    /// </summary>
+    public Task UpdateRootComponentAsync(int componentId, ParameterView parameters)
+    {
+        return Dispatcher.InvokeAsync(async () =>
+        {
+            if (!_rootsById.ContainsKey(componentId))
+            {
+                throw new InvalidOperationException(
+                    $"Component ID {componentId} is not a mounted root component owned by this renderer.");
+            }
+
+            await RenderRootComponentAsync(componentId, parameters);
         });
     }
 
     protected override void HandleException(Exception exception)
     {
         _logger.LogError(exception, "Unhandled Exception in the WinUI Renderer");
-        OnUnhandledException?.Invoke(this, new UnhandledExceptionEventArgs(exception, false));
+        UnhandledException?.Invoke(this, new UnhandledExceptionEventArgs(exception, false));
     }
 
     protected override Task UpdateDisplayAsync(in RenderBatch renderBatch)
@@ -274,7 +356,13 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
 
     private void DisposeControls(int componentId)
     {
-        _componentParents.Remove(componentId);
+        RemoveDescendantParentMappings(componentId);
+
+        if (_rootsById.TryGetValue(componentId, out var rootRegistration))
+        {
+            RemoveRootRegistration(rootRegistration);
+            rootRegistration.Host.SetChildren([]);
+        }
 
         if (NativeControls.TryGetValue(componentId, out var control))
         {
@@ -292,18 +380,90 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
 
         control.Children.Clear();
         NativeControls.Remove(control.ComponentId);
+        _componentParents.Remove(control.ComponentId);
         control.Adapter?.Dispose();
+    }
+
+    private Task UnmountRootComponentCoreAsync(int componentId)
+    {
+        _dispatcher.AssertAccess();
+
+        if (!_rootsById.TryGetValue(componentId, out var registration))
+        {
+            return Task.CompletedTask;
+        }
+
+        try
+        {
+            RemoveRootComponent(componentId);
+        }
+        finally
+        {
+            registration.Host.SetChildren([]);
+            RemoveRootRegistration(registration);
+            DisposeControls(componentId);
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private static bool IsValidComponentType(Type componentType)
+    {
+        return componentType.IsClass &&
+            !componentType.IsAbstract &&
+            !componentType.ContainsGenericParameters &&
+            typeof(IComponent).IsAssignableFrom(componentType);
+    }
+
+    private void RemoveRootRegistration(RootComponentRegistration registration)
+    {
+        _rootsById.Remove(registration.ComponentId);
+        if (_rootsByPanel.TryGetValue(registration.Host.Panel, out var current) &&
+            current.ComponentId == registration.ComponentId)
+        {
+            _rootsByPanel.Remove(registration.Host.Panel);
+        }
+    }
+
+    private void RemoveDescendantParentMappings(int rootComponentId)
+    {
+        foreach (var componentId in _componentParents.Keys.ToArray())
+        {
+            var current = componentId;
+            var visited = new HashSet<int>();
+            while (visited.Add(current) && _componentParents.TryGetValue(current, out var parentId))
+            {
+                if (parentId == rootComponentId)
+                {
+                    _componentParents.Remove(componentId);
+                    break;
+                }
+
+                current = parentId;
+            }
+        }
+
+        _componentParents.Remove(rootComponentId);
+    }
+
+    private sealed class RootComponentRegistration(int componentId, RootPanelHost host)
+    {
+        public int ComponentId { get; } = componentId;
+
+        public RootPanelHost Host { get; } = host;
     }
 
     private sealed class RootPanelHost(Panel panel) : IControlContainer
     {
+        public Panel Panel { get; } = panel;
+
         public void SetChildren(IReadOnlyList<FrameworkElement> children)
         {
-            panel.Children.Clear();
+            Panel.Children.Clear();
 
             foreach (var child in children)
             {
-                panel.Children.Add(child);
+                Panel.Children.Add(child);
             }
         }
     }

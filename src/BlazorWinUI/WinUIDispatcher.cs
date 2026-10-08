@@ -27,7 +27,7 @@ internal sealed class WinUIDispatcher(DispatcherQueue queue) : Dispatcher
 
         var taskCompletionSource = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        queue.TryEnqueue(() =>
+        if (!queue.TryEnqueue(() =>
         {
             try
             {
@@ -38,7 +38,11 @@ internal sealed class WinUIDispatcher(DispatcherQueue queue) : Dispatcher
             {
                 taskCompletionSource.SetException(ex);
             }
-        });
+        }))
+        {
+            taskCompletionSource.TrySetException(new InvalidOperationException(
+                "The WinUI DispatcherQueue is no longer accepting work."));
+        }
 
         return taskCompletionSource.Task;
     }
@@ -52,7 +56,7 @@ internal sealed class WinUIDispatcher(DispatcherQueue queue) : Dispatcher
 
         var taskCompletionSource = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        queue.TryEnqueue(async () =>
+        if (!queue.TryEnqueue(async () =>
         {
             try
             {
@@ -63,7 +67,11 @@ internal sealed class WinUIDispatcher(DispatcherQueue queue) : Dispatcher
             {
                 taskCompletionSource.SetException(ex);
             }
-        });
+        }))
+        {
+            taskCompletionSource.TrySetException(new InvalidOperationException(
+                "The WinUI DispatcherQueue is no longer accepting work."));
+        }
 
         return taskCompletionSource.Task;
     }
@@ -85,7 +93,7 @@ internal sealed class WinUIDispatcher(DispatcherQueue queue) : Dispatcher
 
         var taskCompletionSource = new TaskCompletionSource<TResult>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        queue.TryEnqueue(() =>
+        if (!queue.TryEnqueue(() =>
         {
             try
             {
@@ -96,7 +104,11 @@ internal sealed class WinUIDispatcher(DispatcherQueue queue) : Dispatcher
             {
                 taskCompletionSource.SetException(ex);
             }
-        });
+        }))
+        {
+            taskCompletionSource.TrySetException(new InvalidOperationException(
+                "The WinUI DispatcherQueue is no longer accepting work."));
+        }
 
         return taskCompletionSource.Task;
     }
@@ -110,7 +122,7 @@ internal sealed class WinUIDispatcher(DispatcherQueue queue) : Dispatcher
 
         var taskCompletionSource = new TaskCompletionSource<TResult>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        queue.TryEnqueue(async () =>
+        if (!queue.TryEnqueue(async () =>
         {
             try
             {
@@ -121,7 +133,11 @@ internal sealed class WinUIDispatcher(DispatcherQueue queue) : Dispatcher
             {
                 taskCompletionSource.SetException(ex);
             }
-        });
+        }))
+        {
+            taskCompletionSource.TrySetException(new InvalidOperationException(
+                "The WinUI DispatcherQueue is no longer accepting work."));
+        }
 
         return taskCompletionSource.Task;
     }
