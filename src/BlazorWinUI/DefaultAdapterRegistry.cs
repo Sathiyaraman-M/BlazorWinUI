@@ -10,7 +10,9 @@ internal static class DefaultAdapterRegistry
         resolver.Register<Components.ScrollViewer, Adapters.ScrollViewerAdapter>();
         resolver.Register<Components.ContentControl, Adapters.ContentControlAdapter>();
         resolver.Register<Components.TextBlock, Adapters.TextBlockAdapter>();
+        resolver.Register<Components.FontIcon, Adapters.FontIconAdapter>();
         resolver.Register<Components.Button, Adapters.ButtonAdapter>();
+        resolver.Register<Components.HyperlinkButton, Adapters.HyperlinkButtonAdapter>();
         resolver.Register<Components.TextBox, Adapters.TextBoxAdapter>();
         resolver.Register<Components.RichEditBox, Adapters.RichEditBoxAdapter>();
         resolver.Register<Components.PasswordBox, Adapters.PasswordBoxAdapter>();

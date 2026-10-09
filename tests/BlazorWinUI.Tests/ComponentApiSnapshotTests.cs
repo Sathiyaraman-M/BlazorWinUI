@@ -37,7 +37,7 @@ public sealed class ComponentApiSnapshotTests
         var library = typeof(WinUIRenderer).Assembly;
         var nullability = new NullabilityInfoContext();
 
-        Assert.Equal(23, baseline.Count);
+        Assert.Equal(25, baseline.Count);
 
         foreach (var (componentName, expectedParameters) in baseline)
         {

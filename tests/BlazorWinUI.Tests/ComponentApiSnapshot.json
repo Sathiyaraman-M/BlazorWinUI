@@ -15804,5 +15804,217 @@
       "name": "OnTapped",
       "type": "global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.TappedRoutedEventArgs>"
     }
+  ],
+  "FontIcon": [
+    {
+      "name": "Glyph",
+      "type": "string"
+    },
+    {
+      "name": "FontFamily",
+      "type": "global::Microsoft.UI.Xaml.Media.FontFamily"
+    },
+    {
+      "name": "FontSize",
+      "type": "double"
+    },
+    {
+      "name": "FontStyle",
+      "type": "global::Windows.UI.Text.FontStyle"
+    },
+    {
+      "name": "FontWeight",
+      "type": "global::Windows.UI.Text.FontWeight"
+    },
+    {
+      "name": "IsTextScaleFactorEnabled",
+      "type": "bool"
+    },
+    {
+      "name": "MirroredWhenRightToLeft",
+      "type": "bool"
+    },
+    {
+      "name": "Foreground",
+      "type": "global::Microsoft.UI.Xaml.Media.Brush"
+    },
+    {
+      "name": "HorizontalAlignment",
+      "type": "global::Microsoft.UI.Xaml.HorizontalAlignment"
+    },
+    {
+      "name": "VerticalAlignment",
+      "type": "global::Microsoft.UI.Xaml.VerticalAlignment"
+    },
+    {
+      "name": "Margin",
+      "type": "global::Microsoft.UI.Xaml.Thickness"
+    },
+    {
+      "name": "Height",
+      "type": "double"
+    },
+    {
+      "name": "Width",
+      "type": "double"
+    },
+    {
+      "name": "Visibility",
+      "type": "global::Microsoft.UI.Xaml.Visibility"
+    },
+    {
+      "name": "Name",
+      "type": "string"
+    },
+    {
+      "name": "Style",
+      "type": "global::Microsoft.UI.Xaml.Style"
+    },
+    {
+      "name": "RequestedTheme",
+      "type": "global::Microsoft.UI.Xaml.ElementTheme"
+    },
+    {
+      "name": "FlowDirection",
+      "type": "global::Microsoft.UI.Xaml.FlowDirection"
+    },
+    {
+      "name": "DataContext",
+      "type": "object"
+    }
+  ],
+  "HyperlinkButton": [
+    {
+      "name": "Content",
+      "type": "object?"
+    },
+    {
+      "name": "NavigateUri",
+      "type": "global::System.Uri?"
+    },
+    {
+      "name": "IsEnabled",
+      "type": "bool"
+    },
+    {
+      "name": "Command",
+      "type": "global::System.Windows.Input.ICommand?"
+    },
+    {
+      "name": "CommandParameter",
+      "type": "object?"
+    },
+    {
+      "name": "AutomationName",
+      "type": "string?"
+    },
+    {
+      "name": "ToolTip",
+      "type": "object?"
+    },
+    {
+      "name": "OnClick",
+      "type": "global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.RoutedEventArgs>"
+    },
+    {
+      "name": "Background",
+      "type": "global::Microsoft.UI.Xaml.Media.Brush"
+    },
+    {
+      "name": "Foreground",
+      "type": "global::Microsoft.UI.Xaml.Media.Brush"
+    },
+    {
+      "name": "BorderBrush",
+      "type": "global::Microsoft.UI.Xaml.Media.Brush"
+    },
+    {
+      "name": "BorderThickness",
+      "type": "global::Microsoft.UI.Xaml.Thickness"
+    },
+    {
+      "name": "CornerRadius",
+      "type": "global::Microsoft.UI.Xaml.CornerRadius"
+    },
+    {
+      "name": "Padding",
+      "type": "global::Microsoft.UI.Xaml.Thickness"
+    },
+    {
+      "name": "FontFamily",
+      "type": "global::Microsoft.UI.Xaml.Media.FontFamily"
+    },
+    {
+      "name": "FontSize",
+      "type": "double"
+    },
+    {
+      "name": "FontStyle",
+      "type": "global::Windows.UI.Text.FontStyle"
+    },
+    {
+      "name": "FontWeight",
+      "type": "global::Windows.UI.Text.FontWeight"
+    },
+    {
+      "name": "IsTextScaleFactorEnabled",
+      "type": "bool"
+    },
+    {
+      "name": "HorizontalContentAlignment",
+      "type": "global::Microsoft.UI.Xaml.HorizontalAlignment"
+    },
+    {
+      "name": "VerticalContentAlignment",
+      "type": "global::Microsoft.UI.Xaml.VerticalAlignment"
+    },
+    {
+      "name": "HorizontalAlignment",
+      "type": "global::Microsoft.UI.Xaml.HorizontalAlignment"
+    },
+    {
+      "name": "VerticalAlignment",
+      "type": "global::Microsoft.UI.Xaml.VerticalAlignment"
+    },
+    {
+      "name": "Margin",
+      "type": "global::Microsoft.UI.Xaml.Thickness"
+    },
+    {
+      "name": "Height",
+      "type": "double"
+    },
+    {
+      "name": "Width",
+      "type": "double"
+    },
+    {
+      "name": "Visibility",
+      "type": "global::Microsoft.UI.Xaml.Visibility"
+    },
+    {
+      "name": "Name",
+      "type": "string"
+    },
+    {
+      "name": "Style",
+      "type": "global::Microsoft.UI.Xaml.Style"
+    },
+    {
+      "name": "RequestedTheme",
+      "type": "global::Microsoft.UI.Xaml.ElementTheme"
+    },
+    {
+      "name": "FlowDirection",
+      "type": "global::Microsoft.UI.Xaml.FlowDirection"
+    },
+    {
+      "name": "DataContext",
+      "type": "object"
+    },
+    {
+      "name": "ChildContent",
+      "type": "global::Microsoft.AspNetCore.Components.RenderFragment?"
+    }
   ]
 }
