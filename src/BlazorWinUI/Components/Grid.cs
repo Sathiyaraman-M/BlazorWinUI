@@ -8,6 +8,10 @@ public sealed class Grid : global::Microsoft.AspNetCore.Components.ComponentBase
     [global::Microsoft.AspNetCore.Components.ParameterAttribute]
     public double ColumnSpacing { get; set; }
     [global::Microsoft.AspNetCore.Components.ParameterAttribute]
+    public global::System.Collections.Generic.IReadOnlyList<global::Microsoft.UI.Xaml.GridLength>? RowDefinitions { get; set; }
+    [global::Microsoft.AspNetCore.Components.ParameterAttribute]
+    public global::System.Collections.Generic.IReadOnlyList<global::Microsoft.UI.Xaml.GridLength>? ColumnDefinitions { get; set; }
+    [global::Microsoft.AspNetCore.Components.ParameterAttribute]
     public global::Microsoft.UI.Xaml.Thickness Padding { get; set; }
     [global::Microsoft.AspNetCore.Components.ParameterAttribute]
     public global::Microsoft.UI.Xaml.Controls.BackgroundSizing BackgroundSizing { get; set; }

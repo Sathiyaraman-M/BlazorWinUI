@@ -10,5 +10,9 @@ internal sealed class NativeControl(int componentId, IAdapter? adapter, IControl
 
     public NativeControl? Parent { get; set; }
 
+    public GridCellPlacement? GridCellPlacement { get; set; }
+
     public List<NativeControl> Children { get; } = [];
 }
+
+internal readonly record struct GridCellPlacement(int Row, int Column, int RowSpan, int ColumnSpan);

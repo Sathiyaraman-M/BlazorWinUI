@@ -190,6 +190,18 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
         var visitedComponents = new HashSet<int> { componentId };
         var desiredChildren = EnumerateVisualChildren(componentId, parent, seen, visitedComponents).ToList();
 
+        if (parent.Adapter?.Element is Grid)
+        {
+            foreach (var child in desiredChildren)
+            {
+                var placement = child.GridCellPlacement;
+                Grid.SetRow(child.Adapter!.Element, placement?.Row ?? 0);
+                Grid.SetColumn(child.Adapter.Element, placement?.Column ?? 0);
+                Grid.SetRowSpan(child.Adapter.Element, placement?.RowSpan ?? 1);
+                Grid.SetColumnSpan(child.Adapter.Element, placement?.ColumnSpan ?? 1);
+            }
+        }
+
         var childrenChanged = parent.Children.Count != desiredChildren.Count;
         if (!childrenChanged)
         {
@@ -226,7 +238,8 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
         int ownerComponentId,
         NativeControl nativeParent,
         HashSet<int> seenNativeControls,
-        HashSet<int> visitedComponents)
+        HashSet<int> visitedComponents,
+        GridCellPlacement? gridCellPlacement = null)
     {
         var frames = GetCurrentRenderTreeFrames(ownerComponentId);
 
@@ -235,6 +248,31 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
             var frame = frames.Array[frameIndex];
             var childComponentId = frame.ComponentId;
             _componentParents[childComponentId] = ownerComponentId;
+
+            if (frame.ComponentType == typeof(Components.GridCell))
+            {
+                if (nativeParent.Adapter?.Element is not Grid)
+                {
+                    throw new InvalidOperationException(
+                        $"{nameof(Components.GridCell)} must be a descendant of a {nameof(Components.Grid)} component.");
+                }
+
+                var placement = ReadGridCellPlacement(frames.Array, frameIndex);
+                if (visitedComponents.Add(childComponentId))
+                {
+                    foreach (var descendant in EnumerateVisualChildren(
+                        childComponentId,
+                        nativeParent,
+                        seenNativeControls,
+                        visitedComponents,
+                        placement))
+                    {
+                        yield return descendant;
+                    }
+                }
+
+                continue;
+            }
 
             if (AdapterResolver.HasAdapter(frame.ComponentType))
             {
@@ -250,6 +288,7 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
                 }
 
                 child.Parent = nativeParent;
+                child.GridCellPlacement = gridCellPlacement;
                 yield return child;
                 continue;
             }
@@ -263,12 +302,41 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
                     childComponentId,
                     nativeParent,
                     seenNativeControls,
-                    visitedComponents))
+                    visitedComponents,
+                    gridCellPlacement))
                 {
                     yield return descendant;
                 }
             }
         }
+    }
+
+    private static GridCellPlacement ReadGridCellPlacement(RenderTreeFrame[] frames, int frameIndex)
+    {
+        var row = 0;
+        var column = 0;
+        var rowSpan = 1;
+        var columnSpan = 1;
+        var end = Math.Min(frameIndex + frames[frameIndex].ComponentSubtreeLength, frames.Length);
+
+        for (var index = frameIndex + 1; index < end; index++)
+        {
+            var frame = frames[index];
+            if (frame.FrameType != RenderTreeFrameType.Attribute)
+            {
+                continue;
+            }
+
+            switch (frame.AttributeName)
+            {
+                case nameof(Components.GridCell.Row): row = (int)frame.AttributeValue!; break;
+                case nameof(Components.GridCell.Column): column = (int)frame.AttributeValue!; break;
+                case nameof(Components.GridCell.RowSpan): rowSpan = (int)frame.AttributeValue!; break;
+                case nameof(Components.GridCell.ColumnSpan): columnSpan = (int)frame.AttributeValue!; break;
+            }
+        }
+
+        return new GridCellPlacement(row, column, rowSpan, columnSpan);
     }
 
     private bool TryFindNativeContainerAncestor(int componentId, out NativeControl ancestor)

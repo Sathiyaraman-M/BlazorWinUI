@@ -302,6 +302,32 @@ public sealed class GridAdapter : global::BlazorWinUI.Abstractions.IAdapter, glo
             {
                 case "RowSpacing": _control.RowSpacing = (double)parameter.Value!; break;
                 case "ColumnSpacing": _control.ColumnSpacing = (double)parameter.Value!; break;
+                case "RowDefinitions":
+                {
+                    _control.RowDefinitions.Clear();
+                    if (parameter.Value is global::System.Collections.Generic.IReadOnlyList<global::Microsoft.UI.Xaml.GridLength> rowDefinitions)
+                    {
+                        foreach (var height in rowDefinitions)
+                        {
+                            _control.RowDefinitions.Add(new global::Microsoft.UI.Xaml.Controls.RowDefinition { Height = height });
+                        }
+                    }
+
+                    break;
+                }
+                case "ColumnDefinitions":
+                {
+                    _control.ColumnDefinitions.Clear();
+                    if (parameter.Value is global::System.Collections.Generic.IReadOnlyList<global::Microsoft.UI.Xaml.GridLength> columnDefinitions)
+                    {
+                        foreach (var width in columnDefinitions)
+                        {
+                            _control.ColumnDefinitions.Add(new global::Microsoft.UI.Xaml.Controls.ColumnDefinition { Width = width });
+                        }
+                    }
+
+                    break;
+                }
                 case "Padding": _control.Padding = (global::Microsoft.UI.Xaml.Thickness)parameter.Value!; break;
                 case "BackgroundSizing": _control.BackgroundSizing = (global::Microsoft.UI.Xaml.Controls.BackgroundSizing)parameter.Value!; break;
                 case "BorderBrush": _control.BorderBrush = (global::Microsoft.UI.Xaml.Media.Brush)parameter.Value!; break;
@@ -455,6 +481,16 @@ public sealed class GridAdapter : global::BlazorWinUI.Abstractions.IAdapter, glo
                 case "ColumnSpacing":
                 {
                     _control.ColumnSpacing = _defaultColumnSpacing;
+                    break;
+                }
+                case "RowDefinitions":
+                {
+                    _control.RowDefinitions.Clear();
+                    break;
+                }
+                case "ColumnDefinitions":
+                {
+                    _control.ColumnDefinitions.Clear();
                     break;
                 }
                 case "Padding":

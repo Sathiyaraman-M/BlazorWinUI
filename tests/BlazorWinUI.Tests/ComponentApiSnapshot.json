@@ -3977,6 +3977,14 @@
       "type": "double"
     },
     {
+      "name": "RowDefinitions",
+      "type": "global::System.Collections.Generic.IReadOnlyList<global::Microsoft.UI.Xaml.GridLength>?"
+    },
+    {
+      "name": "ColumnDefinitions",
+      "type": "global::System.Collections.Generic.IReadOnlyList<global::Microsoft.UI.Xaml.GridLength>?"
+    },
+    {
       "name": "Padding",
       "type": "global::Microsoft.UI.Xaml.Thickness"
     },
