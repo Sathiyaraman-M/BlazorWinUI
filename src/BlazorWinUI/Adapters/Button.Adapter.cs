@@ -58,6 +58,8 @@ public sealed class ButtonAdapter : global::BlazorWinUI.Abstractions.IAdapter, g
     private global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.TappedRoutedEventArgs> _onTapped;
     private readonly global::System.Collections.Generic.HashSet<string> _presentParameters = new(global::System.StringComparer.Ordinal);
     private readonly object _defaultText;
+    private readonly string? _defaultAutomationName;
+    private readonly object? _defaultToolTip;
     private readonly bool _defaultIsEnabled;
     private readonly global::Microsoft.UI.Xaml.HorizontalAlignment _defaultHorizontalAlignment;
     private readonly global::Microsoft.UI.Xaml.VerticalAlignment _defaultVerticalAlignment;
@@ -179,6 +181,8 @@ public sealed class ButtonAdapter : global::BlazorWinUI.Abstractions.IAdapter, g
     public ButtonAdapter()
     {
         _defaultText = _control.Content;
+        _defaultAutomationName = global::Microsoft.UI.Xaml.Automation.AutomationProperties.GetName(_control);
+        _defaultToolTip = global::Microsoft.UI.Xaml.Controls.ToolTipService.GetToolTip(_control);
         _defaultIsEnabled = _control.IsEnabled;
         _defaultHorizontalAlignment = _control.HorizontalAlignment;
         _defaultVerticalAlignment = _control.VerticalAlignment;
@@ -361,6 +365,8 @@ public sealed class ButtonAdapter : global::BlazorWinUI.Abstractions.IAdapter, g
                     if (!_hasRenderedChildren) _control.Content = (object)parameter.Value!;
                     break;
                 }
+                case "AutomationName": global::Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(_control, (string?)parameter.Value); break;
+                case "ToolTip": global::Microsoft.UI.Xaml.Controls.ToolTipService.SetToolTip(_control, parameter.Value); break;
                 case "IsEnabled": _control.IsEnabled = (bool)parameter.Value!; break;
                 case "HorizontalAlignment": _control.HorizontalAlignment = (global::Microsoft.UI.Xaml.HorizontalAlignment)parameter.Value!; break;
                 case "VerticalAlignment": _control.VerticalAlignment = (global::Microsoft.UI.Xaml.VerticalAlignment)parameter.Value!; break;
@@ -537,6 +543,16 @@ public sealed class ButtonAdapter : global::BlazorWinUI.Abstractions.IAdapter, g
                 {
                     _configuredContent = _defaultText;
                     if (!_hasRenderedChildren) _control.Content = _defaultText;
+                    break;
+                }
+                case "AutomationName":
+                {
+                    global::Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(_control, _defaultAutomationName);
+                    break;
+                }
+                case "ToolTip":
+                {
+                    global::Microsoft.UI.Xaml.Controls.ToolTipService.SetToolTip(_control, _defaultToolTip);
                     break;
                 }
                 case "IsEnabled":

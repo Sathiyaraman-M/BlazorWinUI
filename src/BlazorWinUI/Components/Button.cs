@@ -6,6 +6,10 @@ public sealed class Button : global::Microsoft.AspNetCore.Components.ComponentBa
     [global::Microsoft.AspNetCore.Components.ParameterAttribute]
     public global::System.String? Text { get; set; }
     [global::Microsoft.AspNetCore.Components.ParameterAttribute]
+    public string? AutomationName { get; set; }
+    [global::Microsoft.AspNetCore.Components.ParameterAttribute]
+    public object? ToolTip { get; set; }
+    [global::Microsoft.AspNetCore.Components.ParameterAttribute]
     public bool IsEnabled { get; set; }
     [global::Microsoft.AspNetCore.Components.ParameterAttribute]
     public global::Microsoft.UI.Xaml.HorizontalAlignment HorizontalAlignment { get; set; }
