@@ -20,6 +20,8 @@ public sealed class TextBlock : global::Microsoft.AspNetCore.Components.Componen
     [global::Microsoft.AspNetCore.Components.ParameterAttribute]
     public global::Microsoft.UI.Xaml.TextTrimming TextTrimming { get; set; }
     [global::Microsoft.AspNetCore.Components.ParameterAttribute]
+    public object? ToolTip { get; set; }
+    [global::Microsoft.AspNetCore.Components.ParameterAttribute]
     public bool IsTextSelectionEnabled { get; set; }
     [global::Microsoft.AspNetCore.Components.ParameterAttribute]
     public int MaxLines { get; set; }

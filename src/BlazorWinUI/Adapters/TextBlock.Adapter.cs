@@ -64,6 +64,7 @@ public sealed class TextBlockAdapter : global::BlazorWinUI.Abstractions.IAdapter
     private readonly global::Microsoft.UI.Xaml.TextAlignment _defaultTextAlignment;
     private readonly global::Microsoft.UI.Xaml.TextWrapping _defaultTextWrapping;
     private readonly global::Microsoft.UI.Xaml.TextTrimming _defaultTextTrimming;
+    private readonly object? _defaultToolTip;
     private readonly bool _defaultIsTextSelectionEnabled;
     private readonly int _defaultMaxLines;
     private readonly int _defaultCharacterSpacing;
@@ -176,6 +177,7 @@ public sealed class TextBlockAdapter : global::BlazorWinUI.Abstractions.IAdapter
         _defaultTextAlignment = _control.TextAlignment;
         _defaultTextWrapping = _control.TextWrapping;
         _defaultTextTrimming = _control.TextTrimming;
+        _defaultToolTip = global::Microsoft.UI.Xaml.Controls.ToolTipService.GetToolTip(_control);
         _defaultIsTextSelectionEnabled = _control.IsTextSelectionEnabled;
         _defaultMaxLines = _control.MaxLines;
         _defaultCharacterSpacing = _control.CharacterSpacing;
@@ -344,6 +346,7 @@ public sealed class TextBlockAdapter : global::BlazorWinUI.Abstractions.IAdapter
                 case "TextAlignment": _control.TextAlignment = (global::Microsoft.UI.Xaml.TextAlignment)parameter.Value!; break;
                 case "TextWrapping": _control.TextWrapping = (global::Microsoft.UI.Xaml.TextWrapping)parameter.Value!; break;
                 case "TextTrimming": _control.TextTrimming = (global::Microsoft.UI.Xaml.TextTrimming)parameter.Value!; break;
+                case "ToolTip": global::Microsoft.UI.Xaml.Controls.ToolTipService.SetToolTip(_control, parameter.Value); break;
                 case "IsTextSelectionEnabled": _control.IsTextSelectionEnabled = (bool)parameter.Value!; break;
                 case "MaxLines": _control.MaxLines = (int)parameter.Value!; break;
                 case "CharacterSpacing": _control.CharacterSpacing = (int)parameter.Value!; break;
@@ -539,6 +542,11 @@ public sealed class TextBlockAdapter : global::BlazorWinUI.Abstractions.IAdapter
                 case "TextTrimming":
                 {
                     _control.TextTrimming = _defaultTextTrimming;
+                    break;
+                }
+                case "ToolTip":
+                {
+                    global::Microsoft.UI.Xaml.Controls.ToolTipService.SetToolTip(_control, _defaultToolTip);
                     break;
                 }
                 case "IsTextSelectionEnabled":
