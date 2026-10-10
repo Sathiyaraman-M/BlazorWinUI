@@ -288,6 +288,8 @@ public sealed class ListView : global::Microsoft.AspNetCore.Components.Component
     [global::Microsoft.AspNetCore.Components.ParameterAttribute]
     public global::Microsoft.AspNetCore.Components.EventCallback<int> SelectedIndexChanged { get; set; }
     [global::Microsoft.AspNetCore.Components.ParameterAttribute]
+    public global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs> OnSelectionChanged { get; set; }
+    [global::Microsoft.AspNetCore.Components.ParameterAttribute]
     public global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.ChoosingGroupHeaderContainerEventArgs> OnChoosingGroupHeaderContainer { get; set; }
     [global::Microsoft.AspNetCore.Components.ParameterAttribute]
     public global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.ChoosingItemContainerEventArgs> OnChoosingItemContainer { get; set; }

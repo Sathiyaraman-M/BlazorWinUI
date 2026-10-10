@@ -5,6 +5,7 @@ public sealed class ListViewAdapter : global::BlazorWinUI.Abstractions.IAdapter,
 {
     private readonly global::Microsoft.UI.Xaml.Controls.ListView _control = new global::Microsoft.UI.Xaml.Controls.ListView();
     private global::Microsoft.AspNetCore.Components.EventCallback<int> _selectedIndexChanged;
+    private global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs> _onSelectionChanged;
     private global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.ChoosingGroupHeaderContainerEventArgs> _onChoosingGroupHeaderContainer;
     private global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.ChoosingItemContainerEventArgs> _onChoosingItemContainer;
     private global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.ContainerContentChangingEventArgs> _onContainerContentChanging;
@@ -560,6 +561,7 @@ public sealed class ListViewAdapter : global::BlazorWinUI.Abstractions.IAdapter,
                 case "XYFocusUpNavigationStrategy": _control.XYFocusUpNavigationStrategy = (global::Microsoft.UI.Xaml.Input.XYFocusNavigationStrategy)parameter.Value!; break;
                 case "XamlRoot": _control.XamlRoot = (global::Microsoft.UI.Xaml.XamlRoot)parameter.Value!; break;
                 case "SelectedIndexChanged": _selectedIndexChanged = (global::Microsoft.AspNetCore.Components.EventCallback<int>)parameter.Value!; break;
+                case "OnSelectionChanged": _onSelectionChanged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs>)parameter.Value!; break;
                 case "OnChoosingGroupHeaderContainer": _onChoosingGroupHeaderContainer = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.ChoosingGroupHeaderContainerEventArgs>)parameter.Value!; break;
                 case "OnChoosingItemContainer": _onChoosingItemContainer = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.ChoosingItemContainerEventArgs>)parameter.Value!; break;
                 case "OnContainerContentChanging": _onContainerContentChanging = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.ContainerContentChangingEventArgs>)parameter.Value!; break;
@@ -1330,6 +1332,7 @@ public sealed class ListViewAdapter : global::BlazorWinUI.Abstractions.IAdapter,
                     break;
                 }
                 case "SelectedIndexChanged": _selectedIndexChanged = default; break;
+                case "OnSelectionChanged": _onSelectionChanged = default; break;
                 case "OnChoosingGroupHeaderContainer": _onChoosingGroupHeaderContainer = default; break;
                 case "OnChoosingItemContainer": _onChoosingItemContainer = default; break;
                 case "OnContainerContentChanging": _onContainerContentChanging = default; break;
@@ -1396,6 +1399,7 @@ public sealed class ListViewAdapter : global::BlazorWinUI.Abstractions.IAdapter,
     private async void OnSelectedIndexChanged(object sender, global::Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs args)
     {
         await _selectedIndexChanged.InvokeAsync(_control.SelectedIndex);
+        await _onSelectionChanged.InvokeAsync(args);
     }
 
     private async void OnOnChoosingGroupHeaderContainer(global::Microsoft.UI.Xaml.Controls.ListViewBase arg0, global::Microsoft.UI.Xaml.Controls.ChoosingGroupHeaderContainerEventArgs arg1)
