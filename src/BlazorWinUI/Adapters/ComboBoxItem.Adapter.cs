@@ -348,786 +348,1222 @@ public sealed class ComboBoxItemAdapter : global::BlazorWinUI.Abstractions.IAdap
             switch (parameter.Name)
             {
                 case "Text":
-                {
-                    _configuredContent = parameter.Value;
-                    if (!_hasRenderedChildren) _control.Content = (object)parameter.Value!;
+                    {
+                        _configuredContent = parameter.Value;
+                        if (!_hasRenderedChildren)
+                        {
+                            _control.Content = (object)parameter.Value!;
+                        }
+
+                        break;
+                    }
+                case "IsSelected":
+                    _control.IsSelected = (bool)parameter.Value!;
                     break;
-                }
-                case "IsSelected": _control.IsSelected = (bool)parameter.Value!; break;
-                case "IsEnabled": _control.IsEnabled = (bool)parameter.Value!; break;
-                case "ContentTemplate": _control.ContentTemplate = (global::Microsoft.UI.Xaml.DataTemplate)parameter.Value!; break;
-                case "ContentTemplateSelector": _control.ContentTemplateSelector = (global::Microsoft.UI.Xaml.Controls.DataTemplateSelector)parameter.Value!; break;
-                case "ContentTransitions": _control.ContentTransitions = (global::Microsoft.UI.Xaml.Media.Animation.TransitionCollection)parameter.Value!; break;
-                case "Background": _control.Background = (global::Microsoft.UI.Xaml.Media.Brush)parameter.Value!; break;
-                case "BackgroundSizing": _control.BackgroundSizing = (global::Microsoft.UI.Xaml.Controls.BackgroundSizing)parameter.Value!; break;
-                case "BorderBrush": _control.BorderBrush = (global::Microsoft.UI.Xaml.Media.Brush)parameter.Value!; break;
-                case "BorderThickness": _control.BorderThickness = (global::Microsoft.UI.Xaml.Thickness)parameter.Value!; break;
-                case "CharacterSpacing": _control.CharacterSpacing = (int)parameter.Value!; break;
-                case "CornerRadius": _control.CornerRadius = (global::Microsoft.UI.Xaml.CornerRadius)parameter.Value!; break;
-                case "DefaultStyleResourceUri": _control.DefaultStyleResourceUri = (global::System.Uri)parameter.Value!; break;
-                case "ElementSoundMode": _control.ElementSoundMode = (global::Microsoft.UI.Xaml.ElementSoundMode)parameter.Value!; break;
-                case "FontFamily": _control.FontFamily = (global::Microsoft.UI.Xaml.Media.FontFamily)parameter.Value!; break;
-                case "FontSize": _control.FontSize = (double)parameter.Value!; break;
-                case "FontStretch": _control.FontStretch = (global::Windows.UI.Text.FontStretch)parameter.Value!; break;
-                case "FontStyle": _control.FontStyle = (global::Windows.UI.Text.FontStyle)parameter.Value!; break;
-                case "FontWeight": _control.FontWeight = (global::Windows.UI.Text.FontWeight)parameter.Value!; break;
-                case "Foreground": _control.Foreground = (global::Microsoft.UI.Xaml.Media.Brush)parameter.Value!; break;
-                case "HorizontalContentAlignment": _control.HorizontalContentAlignment = (global::Microsoft.UI.Xaml.HorizontalAlignment)parameter.Value!; break;
-                case "IsFocusEngaged": _control.IsFocusEngaged = (bool)parameter.Value!; break;
-                case "IsFocusEngagementEnabled": _control.IsFocusEngagementEnabled = (bool)parameter.Value!; break;
-                case "IsTextScaleFactorEnabled": _control.IsTextScaleFactorEnabled = (bool)parameter.Value!; break;
-                case "Padding": _control.Padding = (global::Microsoft.UI.Xaml.Thickness)parameter.Value!; break;
-                case "RequiresPointer": _control.RequiresPointer = (global::Microsoft.UI.Xaml.Controls.RequiresPointer)parameter.Value!; break;
-                case "TabNavigation": _control.TabNavigation = (global::Microsoft.UI.Xaml.Input.KeyboardNavigationMode)parameter.Value!; break;
-                case "Template": _control.Template = (global::Microsoft.UI.Xaml.Controls.ControlTemplate)parameter.Value!; break;
-                case "VerticalContentAlignment": _control.VerticalContentAlignment = (global::Microsoft.UI.Xaml.VerticalAlignment)parameter.Value!; break;
-                case "AllowFocusOnInteraction": _control.AllowFocusOnInteraction = (bool)parameter.Value!; break;
-                case "AllowFocusWhenDisabled": _control.AllowFocusWhenDisabled = (bool)parameter.Value!; break;
-                case "DataContext": _control.DataContext = (object)parameter.Value!; break;
-                case "FlowDirection": _control.FlowDirection = (global::Microsoft.UI.Xaml.FlowDirection)parameter.Value!; break;
-                case "FocusVisualMargin": _control.FocusVisualMargin = (global::Microsoft.UI.Xaml.Thickness)parameter.Value!; break;
-                case "FocusVisualPrimaryBrush": _control.FocusVisualPrimaryBrush = (global::Microsoft.UI.Xaml.Media.Brush)parameter.Value!; break;
-                case "FocusVisualPrimaryThickness": _control.FocusVisualPrimaryThickness = (global::Microsoft.UI.Xaml.Thickness)parameter.Value!; break;
-                case "FocusVisualSecondaryBrush": _control.FocusVisualSecondaryBrush = (global::Microsoft.UI.Xaml.Media.Brush)parameter.Value!; break;
-                case "FocusVisualSecondaryThickness": _control.FocusVisualSecondaryThickness = (global::Microsoft.UI.Xaml.Thickness)parameter.Value!; break;
-                case "Height": _control.Height = (double)parameter.Value!; break;
-                case "HorizontalAlignment": _control.HorizontalAlignment = (global::Microsoft.UI.Xaml.HorizontalAlignment)parameter.Value!; break;
-                case "Language": _control.Language = (string)parameter.Value!; break;
-                case "Margin": _control.Margin = (global::Microsoft.UI.Xaml.Thickness)parameter.Value!; break;
-                case "MaxHeight": _control.MaxHeight = (double)parameter.Value!; break;
-                case "MaxWidth": _control.MaxWidth = (double)parameter.Value!; break;
-                case "MinHeight": _control.MinHeight = (double)parameter.Value!; break;
-                case "MinWidth": _control.MinWidth = (double)parameter.Value!; break;
-                case "Name": _control.Name = (string)parameter.Value!; break;
-                case "RequestedTheme": _control.RequestedTheme = (global::Microsoft.UI.Xaml.ElementTheme)parameter.Value!; break;
-                case "Resources": _control.Resources = (global::Microsoft.UI.Xaml.ResourceDictionary)parameter.Value!; break;
-                case "Style": _control.Style = (global::Microsoft.UI.Xaml.Style)parameter.Value!; break;
-                case "Tag": _control.Tag = (object)parameter.Value!; break;
-                case "VerticalAlignment": _control.VerticalAlignment = (global::Microsoft.UI.Xaml.VerticalAlignment)parameter.Value!; break;
-                case "Width": _control.Width = (double)parameter.Value!; break;
-                case "AccessKey": _control.AccessKey = (string)parameter.Value!; break;
-                case "AccessKeyScopeOwner": _control.AccessKeyScopeOwner = (global::Microsoft.UI.Xaml.DependencyObject)parameter.Value!; break;
-                case "AllowDrop": _control.AllowDrop = (bool)parameter.Value!; break;
-                case "CacheMode": _control.CacheMode = (global::Microsoft.UI.Xaml.Media.CacheMode)parameter.Value!; break;
-                case "CanBeScrollAnchor": _control.CanBeScrollAnchor = (bool)parameter.Value!; break;
-                case "CanDrag": _control.CanDrag = (bool)parameter.Value!; break;
-                case "CenterPoint": _control.CenterPoint = (global::System.Numerics.Vector3)parameter.Value!; break;
-                case "Clip": _control.Clip = (global::Microsoft.UI.Xaml.Media.RectangleGeometry)parameter.Value!; break;
-                case "CompositeMode": _control.CompositeMode = (global::Microsoft.UI.Xaml.Media.ElementCompositeMode)parameter.Value!; break;
-                case "ContextFlyout": _control.ContextFlyout = (global::Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase)parameter.Value!; break;
-                case "ExitDisplayModeOnAccessKeyInvoked": _control.ExitDisplayModeOnAccessKeyInvoked = (bool)parameter.Value!; break;
-                case "HighContrastAdjustment": _control.HighContrastAdjustment = (global::Microsoft.UI.Xaml.ElementHighContrastAdjustment)parameter.Value!; break;
-                case "IsAccessKeyScope": _control.IsAccessKeyScope = (bool)parameter.Value!; break;
-                case "IsDoubleTapEnabled": _control.IsDoubleTapEnabled = (bool)parameter.Value!; break;
-                case "IsHitTestVisible": _control.IsHitTestVisible = (bool)parameter.Value!; break;
-                case "IsHoldingEnabled": _control.IsHoldingEnabled = (bool)parameter.Value!; break;
-                case "IsRightTapEnabled": _control.IsRightTapEnabled = (bool)parameter.Value!; break;
-                case "IsTabStop": _control.IsTabStop = (bool)parameter.Value!; break;
-                case "IsTapEnabled": _control.IsTapEnabled = (bool)parameter.Value!; break;
-                case "KeyTipHorizontalOffset": _control.KeyTipHorizontalOffset = (double)parameter.Value!; break;
-                case "KeyTipPlacementMode": _control.KeyTipPlacementMode = (global::Microsoft.UI.Xaml.Input.KeyTipPlacementMode)parameter.Value!; break;
-                case "KeyTipTarget": _control.KeyTipTarget = (global::Microsoft.UI.Xaml.DependencyObject)parameter.Value!; break;
-                case "KeyTipVerticalOffset": _control.KeyTipVerticalOffset = (double)parameter.Value!; break;
-                case "KeyboardAcceleratorPlacementMode": _control.KeyboardAcceleratorPlacementMode = (global::Microsoft.UI.Xaml.Input.KeyboardAcceleratorPlacementMode)parameter.Value!; break;
-                case "KeyboardAcceleratorPlacementTarget": _control.KeyboardAcceleratorPlacementTarget = (global::Microsoft.UI.Xaml.DependencyObject)parameter.Value!; break;
-                case "ManipulationMode": _control.ManipulationMode = (global::Microsoft.UI.Xaml.Input.ManipulationModes)parameter.Value!; break;
-                case "Opacity": _control.Opacity = (double)parameter.Value!; break;
-                case "OpacityTransition": _control.OpacityTransition = (global::Microsoft.UI.Xaml.ScalarTransition)parameter.Value!; break;
-                case "Projection": _control.Projection = (global::Microsoft.UI.Xaml.Media.Projection)parameter.Value!; break;
-                case "RasterizationScale": _control.RasterizationScale = (double)parameter.Value!; break;
-                case "RenderTransform": _control.RenderTransform = (global::Microsoft.UI.Xaml.Media.Transform)parameter.Value!; break;
-                case "RenderTransformOrigin": _control.RenderTransformOrigin = (global::Windows.Foundation.Point)parameter.Value!; break;
-                case "Rotation": _control.Rotation = (float)parameter.Value!; break;
-                case "RotationAxis": _control.RotationAxis = (global::System.Numerics.Vector3)parameter.Value!; break;
-                case "RotationTransition": _control.RotationTransition = (global::Microsoft.UI.Xaml.ScalarTransition)parameter.Value!; break;
-                case "Scale": _control.Scale = (global::System.Numerics.Vector3)parameter.Value!; break;
-                case "ScaleTransition": _control.ScaleTransition = (global::Microsoft.UI.Xaml.Vector3Transition)parameter.Value!; break;
-                case "Shadow": _control.Shadow = (global::Microsoft.UI.Xaml.Media.Shadow)parameter.Value!; break;
-                case "TabFocusNavigation": _control.TabFocusNavigation = (global::Microsoft.UI.Xaml.Input.KeyboardNavigationMode)parameter.Value!; break;
-                case "TabIndex": _control.TabIndex = (int)parameter.Value!; break;
-                case "Transform3D": _control.Transform3D = (global::Microsoft.UI.Xaml.Media.Media3D.Transform3D)parameter.Value!; break;
-                case "TransformMatrix": _control.TransformMatrix = (global::System.Numerics.Matrix4x4)parameter.Value!; break;
-                case "Transitions": _control.Transitions = (global::Microsoft.UI.Xaml.Media.Animation.TransitionCollection)parameter.Value!; break;
-                case "Translation": _control.Translation = (global::System.Numerics.Vector3)parameter.Value!; break;
-                case "TranslationTransition": _control.TranslationTransition = (global::Microsoft.UI.Xaml.Vector3Transition)parameter.Value!; break;
-                case "UseLayoutRounding": _control.UseLayoutRounding = (bool)parameter.Value!; break;
-                case "UseSystemFocusVisuals": _control.UseSystemFocusVisuals = (bool)parameter.Value!; break;
-                case "Visibility": _control.Visibility = (global::Microsoft.UI.Xaml.Visibility)parameter.Value!; break;
-                case "XYFocusDown": _control.XYFocusDown = (global::Microsoft.UI.Xaml.DependencyObject)parameter.Value!; break;
-                case "XYFocusDownNavigationStrategy": _control.XYFocusDownNavigationStrategy = (global::Microsoft.UI.Xaml.Input.XYFocusNavigationStrategy)parameter.Value!; break;
-                case "XYFocusKeyboardNavigation": _control.XYFocusKeyboardNavigation = (global::Microsoft.UI.Xaml.Input.XYFocusKeyboardNavigationMode)parameter.Value!; break;
-                case "XYFocusLeft": _control.XYFocusLeft = (global::Microsoft.UI.Xaml.DependencyObject)parameter.Value!; break;
-                case "XYFocusLeftNavigationStrategy": _control.XYFocusLeftNavigationStrategy = (global::Microsoft.UI.Xaml.Input.XYFocusNavigationStrategy)parameter.Value!; break;
-                case "XYFocusRight": _control.XYFocusRight = (global::Microsoft.UI.Xaml.DependencyObject)parameter.Value!; break;
-                case "XYFocusRightNavigationStrategy": _control.XYFocusRightNavigationStrategy = (global::Microsoft.UI.Xaml.Input.XYFocusNavigationStrategy)parameter.Value!; break;
-                case "XYFocusUp": _control.XYFocusUp = (global::Microsoft.UI.Xaml.DependencyObject)parameter.Value!; break;
-                case "XYFocusUpNavigationStrategy": _control.XYFocusUpNavigationStrategy = (global::Microsoft.UI.Xaml.Input.XYFocusNavigationStrategy)parameter.Value!; break;
-                case "XamlRoot": _control.XamlRoot = (global::Microsoft.UI.Xaml.XamlRoot)parameter.Value!; break;
-                case "OnFocusDisengaged": _onFocusDisengaged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.FocusDisengagedEventArgs>)parameter.Value!; break;
-                case "OnFocusEngaged": _onFocusEngaged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.FocusEngagedEventArgs>)parameter.Value!; break;
-                case "OnIsEnabledChanged": _onIsEnabledChanged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DependencyPropertyChangedEventArgs>)parameter.Value!; break;
-                case "OnActualThemeChanged": _onActualThemeChanged = (global::Microsoft.AspNetCore.Components.EventCallback<object>)parameter.Value!; break;
-                case "OnDataContextChanged": _onDataContextChanged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DataContextChangedEventArgs>)parameter.Value!; break;
-                case "OnEffectiveViewportChanged": _onEffectiveViewportChanged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.EffectiveViewportChangedEventArgs>)parameter.Value!; break;
-                case "OnLayoutUpdated": _onLayoutUpdated = (global::Microsoft.AspNetCore.Components.EventCallback<object>)parameter.Value!; break;
-                case "OnLoaded": _onLoaded = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.RoutedEventArgs>)parameter.Value!; break;
-                case "OnLoading": _onLoading = (global::Microsoft.AspNetCore.Components.EventCallback<object>)parameter.Value!; break;
-                case "OnSizeChanged": _onSizeChanged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.SizeChangedEventArgs>)parameter.Value!; break;
-                case "OnUnloaded": _onUnloaded = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.RoutedEventArgs>)parameter.Value!; break;
-                case "OnAccessKeyDisplayDismissed": _onAccessKeyDisplayDismissed = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.AccessKeyDisplayDismissedEventArgs>)parameter.Value!; break;
-                case "OnAccessKeyDisplayRequested": _onAccessKeyDisplayRequested = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.AccessKeyDisplayRequestedEventArgs>)parameter.Value!; break;
-                case "OnAccessKeyInvoked": _onAccessKeyInvoked = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.AccessKeyInvokedEventArgs>)parameter.Value!; break;
-                case "OnBringIntoViewRequested": _onBringIntoViewRequested = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.BringIntoViewRequestedEventArgs>)parameter.Value!; break;
-                case "OnCharacterReceived": _onCharacterReceived = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.CharacterReceivedRoutedEventArgs>)parameter.Value!; break;
-                case "OnContextCanceled": _onContextCanceled = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.RoutedEventArgs>)parameter.Value!; break;
-                case "OnContextRequested": _onContextRequested = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.ContextRequestedEventArgs>)parameter.Value!; break;
-                case "OnDoubleTapped": _onDoubleTapped = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs>)parameter.Value!; break;
-                case "OnDragEnter": _onDragEnter = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DragEventArgs>)parameter.Value!; break;
-                case "OnDragLeave": _onDragLeave = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DragEventArgs>)parameter.Value!; break;
-                case "OnDragOver": _onDragOver = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DragEventArgs>)parameter.Value!; break;
-                case "OnDragStarting": _onDragStarting = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DragStartingEventArgs>)parameter.Value!; break;
-                case "OnDrop": _onDrop = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DragEventArgs>)parameter.Value!; break;
-                case "OnDropCompleted": _onDropCompleted = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DropCompletedEventArgs>)parameter.Value!; break;
-                case "OnGettingFocus": _onGettingFocus = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.GettingFocusEventArgs>)parameter.Value!; break;
-                case "OnGotFocus": _onGotFocus = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.RoutedEventArgs>)parameter.Value!; break;
-                case "OnHolding": _onHolding = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.HoldingRoutedEventArgs>)parameter.Value!; break;
-                case "OnKeyDown": _onKeyDown = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.KeyRoutedEventArgs>)parameter.Value!; break;
-                case "OnKeyUp": _onKeyUp = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.KeyRoutedEventArgs>)parameter.Value!; break;
-                case "OnLosingFocus": _onLosingFocus = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.LosingFocusEventArgs>)parameter.Value!; break;
-                case "OnLostFocus": _onLostFocus = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.RoutedEventArgs>)parameter.Value!; break;
-                case "OnManipulationCompleted": _onManipulationCompleted = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs>)parameter.Value!; break;
-                case "OnManipulationDelta": _onManipulationDelta = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs>)parameter.Value!; break;
-                case "OnManipulationInertiaStarting": _onManipulationInertiaStarting = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.ManipulationInertiaStartingRoutedEventArgs>)parameter.Value!; break;
-                case "OnManipulationStarted": _onManipulationStarted = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.ManipulationStartedRoutedEventArgs>)parameter.Value!; break;
-                case "OnManipulationStarting": _onManipulationStarting = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.ManipulationStartingRoutedEventArgs>)parameter.Value!; break;
-                case "OnNoFocusCandidateFound": _onNoFocusCandidateFound = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.NoFocusCandidateFoundEventArgs>)parameter.Value!; break;
-                case "OnPointerCanceled": _onPointerCanceled = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!; break;
-                case "OnPointerCaptureLost": _onPointerCaptureLost = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!; break;
-                case "OnPointerEntered": _onPointerEntered = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!; break;
-                case "OnPointerExited": _onPointerExited = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!; break;
-                case "OnPointerMoved": _onPointerMoved = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!; break;
-                case "OnPointerPressed": _onPointerPressed = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!; break;
-                case "OnPointerReleased": _onPointerReleased = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!; break;
-                case "OnPointerWheelChanged": _onPointerWheelChanged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!; break;
-                case "OnPreviewKeyDown": _onPreviewKeyDown = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.KeyRoutedEventArgs>)parameter.Value!; break;
-                case "OnPreviewKeyUp": _onPreviewKeyUp = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.KeyRoutedEventArgs>)parameter.Value!; break;
-                case "OnProcessKeyboardAccelerators": _onProcessKeyboardAccelerators = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.ProcessKeyboardAcceleratorEventArgs>)parameter.Value!; break;
-                case "OnRightTapped": _onRightTapped = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs>)parameter.Value!; break;
-                case "OnTapped": _onTapped = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.TappedRoutedEventArgs>)parameter.Value!; break;
+                case "IsEnabled":
+                    _control.IsEnabled = (bool)parameter.Value!;
+                    break;
+                case "ContentTemplate":
+                    _control.ContentTemplate = (global::Microsoft.UI.Xaml.DataTemplate)parameter.Value!;
+                    break;
+                case "ContentTemplateSelector":
+                    _control.ContentTemplateSelector = (global::Microsoft.UI.Xaml.Controls.DataTemplateSelector)parameter.Value!;
+                    break;
+                case "ContentTransitions":
+                    _control.ContentTransitions = (global::Microsoft.UI.Xaml.Media.Animation.TransitionCollection)parameter.Value!;
+                    break;
+                case "Background":
+                    _control.Background = (global::Microsoft.UI.Xaml.Media.Brush)parameter.Value!;
+                    break;
+                case "BackgroundSizing":
+                    _control.BackgroundSizing = (global::Microsoft.UI.Xaml.Controls.BackgroundSizing)parameter.Value!;
+                    break;
+                case "BorderBrush":
+                    _control.BorderBrush = (global::Microsoft.UI.Xaml.Media.Brush)parameter.Value!;
+                    break;
+                case "BorderThickness":
+                    _control.BorderThickness = (global::Microsoft.UI.Xaml.Thickness)parameter.Value!;
+                    break;
+                case "CharacterSpacing":
+                    _control.CharacterSpacing = (int)parameter.Value!;
+                    break;
+                case "CornerRadius":
+                    _control.CornerRadius = (global::Microsoft.UI.Xaml.CornerRadius)parameter.Value!;
+                    break;
+                case "DefaultStyleResourceUri":
+                    _control.DefaultStyleResourceUri = (global::System.Uri)parameter.Value!;
+                    break;
+                case "ElementSoundMode":
+                    _control.ElementSoundMode = (global::Microsoft.UI.Xaml.ElementSoundMode)parameter.Value!;
+                    break;
+                case "FontFamily":
+                    _control.FontFamily = (global::Microsoft.UI.Xaml.Media.FontFamily)parameter.Value!;
+                    break;
+                case "FontSize":
+                    _control.FontSize = (double)parameter.Value!;
+                    break;
+                case "FontStretch":
+                    _control.FontStretch = (global::Windows.UI.Text.FontStretch)parameter.Value!;
+                    break;
+                case "FontStyle":
+                    _control.FontStyle = (global::Windows.UI.Text.FontStyle)parameter.Value!;
+                    break;
+                case "FontWeight":
+                    _control.FontWeight = (global::Windows.UI.Text.FontWeight)parameter.Value!;
+                    break;
+                case "Foreground":
+                    _control.Foreground = (global::Microsoft.UI.Xaml.Media.Brush)parameter.Value!;
+                    break;
+                case "HorizontalContentAlignment":
+                    _control.HorizontalContentAlignment = (global::Microsoft.UI.Xaml.HorizontalAlignment)parameter.Value!;
+                    break;
+                case "IsFocusEngaged":
+                    _control.IsFocusEngaged = (bool)parameter.Value!;
+                    break;
+                case "IsFocusEngagementEnabled":
+                    _control.IsFocusEngagementEnabled = (bool)parameter.Value!;
+                    break;
+                case "IsTextScaleFactorEnabled":
+                    _control.IsTextScaleFactorEnabled = (bool)parameter.Value!;
+                    break;
+                case "Padding":
+                    _control.Padding = (global::Microsoft.UI.Xaml.Thickness)parameter.Value!;
+                    break;
+                case "RequiresPointer":
+                    _control.RequiresPointer = (global::Microsoft.UI.Xaml.Controls.RequiresPointer)parameter.Value!;
+                    break;
+                case "TabNavigation":
+                    _control.TabNavigation = (global::Microsoft.UI.Xaml.Input.KeyboardNavigationMode)parameter.Value!;
+                    break;
+                case "Template":
+                    _control.Template = (global::Microsoft.UI.Xaml.Controls.ControlTemplate)parameter.Value!;
+                    break;
+                case "VerticalContentAlignment":
+                    _control.VerticalContentAlignment = (global::Microsoft.UI.Xaml.VerticalAlignment)parameter.Value!;
+                    break;
+                case "AllowFocusOnInteraction":
+                    _control.AllowFocusOnInteraction = (bool)parameter.Value!;
+                    break;
+                case "AllowFocusWhenDisabled":
+                    _control.AllowFocusWhenDisabled = (bool)parameter.Value!;
+                    break;
+                case "DataContext":
+                    _control.DataContext = (object)parameter.Value!;
+                    break;
+                case "FlowDirection":
+                    _control.FlowDirection = (global::Microsoft.UI.Xaml.FlowDirection)parameter.Value!;
+                    break;
+                case "FocusVisualMargin":
+                    _control.FocusVisualMargin = (global::Microsoft.UI.Xaml.Thickness)parameter.Value!;
+                    break;
+                case "FocusVisualPrimaryBrush":
+                    _control.FocusVisualPrimaryBrush = (global::Microsoft.UI.Xaml.Media.Brush)parameter.Value!;
+                    break;
+                case "FocusVisualPrimaryThickness":
+                    _control.FocusVisualPrimaryThickness = (global::Microsoft.UI.Xaml.Thickness)parameter.Value!;
+                    break;
+                case "FocusVisualSecondaryBrush":
+                    _control.FocusVisualSecondaryBrush = (global::Microsoft.UI.Xaml.Media.Brush)parameter.Value!;
+                    break;
+                case "FocusVisualSecondaryThickness":
+                    _control.FocusVisualSecondaryThickness = (global::Microsoft.UI.Xaml.Thickness)parameter.Value!;
+                    break;
+                case "Height":
+                    _control.Height = (double)parameter.Value!;
+                    break;
+                case "HorizontalAlignment":
+                    _control.HorizontalAlignment = (global::Microsoft.UI.Xaml.HorizontalAlignment)parameter.Value!;
+                    break;
+                case "Language":
+                    _control.Language = (string)parameter.Value!;
+                    break;
+                case "Margin":
+                    _control.Margin = (global::Microsoft.UI.Xaml.Thickness)parameter.Value!;
+                    break;
+                case "MaxHeight":
+                    _control.MaxHeight = (double)parameter.Value!;
+                    break;
+                case "MaxWidth":
+                    _control.MaxWidth = (double)parameter.Value!;
+                    break;
+                case "MinHeight":
+                    _control.MinHeight = (double)parameter.Value!;
+                    break;
+                case "MinWidth":
+                    _control.MinWidth = (double)parameter.Value!;
+                    break;
+                case "Name":
+                    _control.Name = (string)parameter.Value!;
+                    break;
+                case "RequestedTheme":
+                    _control.RequestedTheme = (global::Microsoft.UI.Xaml.ElementTheme)parameter.Value!;
+                    break;
+                case "Resources":
+                    _control.Resources = (global::Microsoft.UI.Xaml.ResourceDictionary)parameter.Value!;
+                    break;
+                case "Style":
+                    _control.Style = (global::Microsoft.UI.Xaml.Style)parameter.Value!;
+                    break;
+                case "Tag":
+                    _control.Tag = (object)parameter.Value!;
+                    break;
+                case "VerticalAlignment":
+                    _control.VerticalAlignment = (global::Microsoft.UI.Xaml.VerticalAlignment)parameter.Value!;
+                    break;
+                case "Width":
+                    _control.Width = (double)parameter.Value!;
+                    break;
+                case "AccessKey":
+                    _control.AccessKey = (string)parameter.Value!;
+                    break;
+                case "AccessKeyScopeOwner":
+                    _control.AccessKeyScopeOwner = (global::Microsoft.UI.Xaml.DependencyObject)parameter.Value!;
+                    break;
+                case "AllowDrop":
+                    _control.AllowDrop = (bool)parameter.Value!;
+                    break;
+                case "CacheMode":
+                    _control.CacheMode = (global::Microsoft.UI.Xaml.Media.CacheMode)parameter.Value!;
+                    break;
+                case "CanBeScrollAnchor":
+                    _control.CanBeScrollAnchor = (bool)parameter.Value!;
+                    break;
+                case "CanDrag":
+                    _control.CanDrag = (bool)parameter.Value!;
+                    break;
+                case "CenterPoint":
+                    _control.CenterPoint = (global::System.Numerics.Vector3)parameter.Value!;
+                    break;
+                case "Clip":
+                    _control.Clip = (global::Microsoft.UI.Xaml.Media.RectangleGeometry)parameter.Value!;
+                    break;
+                case "CompositeMode":
+                    _control.CompositeMode = (global::Microsoft.UI.Xaml.Media.ElementCompositeMode)parameter.Value!;
+                    break;
+                case "ContextFlyout":
+                    _control.ContextFlyout = (global::Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase)parameter.Value!;
+                    break;
+                case "ExitDisplayModeOnAccessKeyInvoked":
+                    _control.ExitDisplayModeOnAccessKeyInvoked = (bool)parameter.Value!;
+                    break;
+                case "HighContrastAdjustment":
+                    _control.HighContrastAdjustment = (global::Microsoft.UI.Xaml.ElementHighContrastAdjustment)parameter.Value!;
+                    break;
+                case "IsAccessKeyScope":
+                    _control.IsAccessKeyScope = (bool)parameter.Value!;
+                    break;
+                case "IsDoubleTapEnabled":
+                    _control.IsDoubleTapEnabled = (bool)parameter.Value!;
+                    break;
+                case "IsHitTestVisible":
+                    _control.IsHitTestVisible = (bool)parameter.Value!;
+                    break;
+                case "IsHoldingEnabled":
+                    _control.IsHoldingEnabled = (bool)parameter.Value!;
+                    break;
+                case "IsRightTapEnabled":
+                    _control.IsRightTapEnabled = (bool)parameter.Value!;
+                    break;
+                case "IsTabStop":
+                    _control.IsTabStop = (bool)parameter.Value!;
+                    break;
+                case "IsTapEnabled":
+                    _control.IsTapEnabled = (bool)parameter.Value!;
+                    break;
+                case "KeyTipHorizontalOffset":
+                    _control.KeyTipHorizontalOffset = (double)parameter.Value!;
+                    break;
+                case "KeyTipPlacementMode":
+                    _control.KeyTipPlacementMode = (global::Microsoft.UI.Xaml.Input.KeyTipPlacementMode)parameter.Value!;
+                    break;
+                case "KeyTipTarget":
+                    _control.KeyTipTarget = (global::Microsoft.UI.Xaml.DependencyObject)parameter.Value!;
+                    break;
+                case "KeyTipVerticalOffset":
+                    _control.KeyTipVerticalOffset = (double)parameter.Value!;
+                    break;
+                case "KeyboardAcceleratorPlacementMode":
+                    _control.KeyboardAcceleratorPlacementMode = (global::Microsoft.UI.Xaml.Input.KeyboardAcceleratorPlacementMode)parameter.Value!;
+                    break;
+                case "KeyboardAcceleratorPlacementTarget":
+                    _control.KeyboardAcceleratorPlacementTarget = (global::Microsoft.UI.Xaml.DependencyObject)parameter.Value!;
+                    break;
+                case "ManipulationMode":
+                    _control.ManipulationMode = (global::Microsoft.UI.Xaml.Input.ManipulationModes)parameter.Value!;
+                    break;
+                case "Opacity":
+                    _control.Opacity = (double)parameter.Value!;
+                    break;
+                case "OpacityTransition":
+                    _control.OpacityTransition = (global::Microsoft.UI.Xaml.ScalarTransition)parameter.Value!;
+                    break;
+                case "Projection":
+                    _control.Projection = (global::Microsoft.UI.Xaml.Media.Projection)parameter.Value!;
+                    break;
+                case "RasterizationScale":
+                    _control.RasterizationScale = (double)parameter.Value!;
+                    break;
+                case "RenderTransform":
+                    _control.RenderTransform = (global::Microsoft.UI.Xaml.Media.Transform)parameter.Value!;
+                    break;
+                case "RenderTransformOrigin":
+                    _control.RenderTransformOrigin = (global::Windows.Foundation.Point)parameter.Value!;
+                    break;
+                case "Rotation":
+                    _control.Rotation = (float)parameter.Value!;
+                    break;
+                case "RotationAxis":
+                    _control.RotationAxis = (global::System.Numerics.Vector3)parameter.Value!;
+                    break;
+                case "RotationTransition":
+                    _control.RotationTransition = (global::Microsoft.UI.Xaml.ScalarTransition)parameter.Value!;
+                    break;
+                case "Scale":
+                    _control.Scale = (global::System.Numerics.Vector3)parameter.Value!;
+                    break;
+                case "ScaleTransition":
+                    _control.ScaleTransition = (global::Microsoft.UI.Xaml.Vector3Transition)parameter.Value!;
+                    break;
+                case "Shadow":
+                    _control.Shadow = (global::Microsoft.UI.Xaml.Media.Shadow)parameter.Value!;
+                    break;
+                case "TabFocusNavigation":
+                    _control.TabFocusNavigation = (global::Microsoft.UI.Xaml.Input.KeyboardNavigationMode)parameter.Value!;
+                    break;
+                case "TabIndex":
+                    _control.TabIndex = (int)parameter.Value!;
+                    break;
+                case "Transform3D":
+                    _control.Transform3D = (global::Microsoft.UI.Xaml.Media.Media3D.Transform3D)parameter.Value!;
+                    break;
+                case "TransformMatrix":
+                    _control.TransformMatrix = (global::System.Numerics.Matrix4x4)parameter.Value!;
+                    break;
+                case "Transitions":
+                    _control.Transitions = (global::Microsoft.UI.Xaml.Media.Animation.TransitionCollection)parameter.Value!;
+                    break;
+                case "Translation":
+                    _control.Translation = (global::System.Numerics.Vector3)parameter.Value!;
+                    break;
+                case "TranslationTransition":
+                    _control.TranslationTransition = (global::Microsoft.UI.Xaml.Vector3Transition)parameter.Value!;
+                    break;
+                case "UseLayoutRounding":
+                    _control.UseLayoutRounding = (bool)parameter.Value!;
+                    break;
+                case "UseSystemFocusVisuals":
+                    _control.UseSystemFocusVisuals = (bool)parameter.Value!;
+                    break;
+                case "Visibility":
+                    _control.Visibility = (global::Microsoft.UI.Xaml.Visibility)parameter.Value!;
+                    break;
+                case "XYFocusDown":
+                    _control.XYFocusDown = (global::Microsoft.UI.Xaml.DependencyObject)parameter.Value!;
+                    break;
+                case "XYFocusDownNavigationStrategy":
+                    _control.XYFocusDownNavigationStrategy = (global::Microsoft.UI.Xaml.Input.XYFocusNavigationStrategy)parameter.Value!;
+                    break;
+                case "XYFocusKeyboardNavigation":
+                    _control.XYFocusKeyboardNavigation = (global::Microsoft.UI.Xaml.Input.XYFocusKeyboardNavigationMode)parameter.Value!;
+                    break;
+                case "XYFocusLeft":
+                    _control.XYFocusLeft = (global::Microsoft.UI.Xaml.DependencyObject)parameter.Value!;
+                    break;
+                case "XYFocusLeftNavigationStrategy":
+                    _control.XYFocusLeftNavigationStrategy = (global::Microsoft.UI.Xaml.Input.XYFocusNavigationStrategy)parameter.Value!;
+                    break;
+                case "XYFocusRight":
+                    _control.XYFocusRight = (global::Microsoft.UI.Xaml.DependencyObject)parameter.Value!;
+                    break;
+                case "XYFocusRightNavigationStrategy":
+                    _control.XYFocusRightNavigationStrategy = (global::Microsoft.UI.Xaml.Input.XYFocusNavigationStrategy)parameter.Value!;
+                    break;
+                case "XYFocusUp":
+                    _control.XYFocusUp = (global::Microsoft.UI.Xaml.DependencyObject)parameter.Value!;
+                    break;
+                case "XYFocusUpNavigationStrategy":
+                    _control.XYFocusUpNavigationStrategy = (global::Microsoft.UI.Xaml.Input.XYFocusNavigationStrategy)parameter.Value!;
+                    break;
+                case "XamlRoot":
+                    _control.XamlRoot = (global::Microsoft.UI.Xaml.XamlRoot)parameter.Value!;
+                    break;
+                case "OnFocusDisengaged":
+                    _onFocusDisengaged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.FocusDisengagedEventArgs>)parameter.Value!;
+                    break;
+                case "OnFocusEngaged":
+                    _onFocusEngaged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Controls.FocusEngagedEventArgs>)parameter.Value!;
+                    break;
+                case "OnIsEnabledChanged":
+                    _onIsEnabledChanged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DependencyPropertyChangedEventArgs>)parameter.Value!;
+                    break;
+                case "OnActualThemeChanged":
+                    _onActualThemeChanged = (global::Microsoft.AspNetCore.Components.EventCallback<object>)parameter.Value!;
+                    break;
+                case "OnDataContextChanged":
+                    _onDataContextChanged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DataContextChangedEventArgs>)parameter.Value!;
+                    break;
+                case "OnEffectiveViewportChanged":
+                    _onEffectiveViewportChanged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.EffectiveViewportChangedEventArgs>)parameter.Value!;
+                    break;
+                case "OnLayoutUpdated":
+                    _onLayoutUpdated = (global::Microsoft.AspNetCore.Components.EventCallback<object>)parameter.Value!;
+                    break;
+                case "OnLoaded":
+                    _onLoaded = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.RoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnLoading":
+                    _onLoading = (global::Microsoft.AspNetCore.Components.EventCallback<object>)parameter.Value!;
+                    break;
+                case "OnSizeChanged":
+                    _onSizeChanged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.SizeChangedEventArgs>)parameter.Value!;
+                    break;
+                case "OnUnloaded":
+                    _onUnloaded = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.RoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnAccessKeyDisplayDismissed":
+                    _onAccessKeyDisplayDismissed = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.AccessKeyDisplayDismissedEventArgs>)parameter.Value!;
+                    break;
+                case "OnAccessKeyDisplayRequested":
+                    _onAccessKeyDisplayRequested = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.AccessKeyDisplayRequestedEventArgs>)parameter.Value!;
+                    break;
+                case "OnAccessKeyInvoked":
+                    _onAccessKeyInvoked = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.AccessKeyInvokedEventArgs>)parameter.Value!;
+                    break;
+                case "OnBringIntoViewRequested":
+                    _onBringIntoViewRequested = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.BringIntoViewRequestedEventArgs>)parameter.Value!;
+                    break;
+                case "OnCharacterReceived":
+                    _onCharacterReceived = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.CharacterReceivedRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnContextCanceled":
+                    _onContextCanceled = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.RoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnContextRequested":
+                    _onContextRequested = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.ContextRequestedEventArgs>)parameter.Value!;
+                    break;
+                case "OnDoubleTapped":
+                    _onDoubleTapped = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnDragEnter":
+                    _onDragEnter = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DragEventArgs>)parameter.Value!;
+                    break;
+                case "OnDragLeave":
+                    _onDragLeave = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DragEventArgs>)parameter.Value!;
+                    break;
+                case "OnDragOver":
+                    _onDragOver = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DragEventArgs>)parameter.Value!;
+                    break;
+                case "OnDragStarting":
+                    _onDragStarting = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DragStartingEventArgs>)parameter.Value!;
+                    break;
+                case "OnDrop":
+                    _onDrop = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DragEventArgs>)parameter.Value!;
+                    break;
+                case "OnDropCompleted":
+                    _onDropCompleted = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.DropCompletedEventArgs>)parameter.Value!;
+                    break;
+                case "OnGettingFocus":
+                    _onGettingFocus = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.GettingFocusEventArgs>)parameter.Value!;
+                    break;
+                case "OnGotFocus":
+                    _onGotFocus = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.RoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnHolding":
+                    _onHolding = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.HoldingRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnKeyDown":
+                    _onKeyDown = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.KeyRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnKeyUp":
+                    _onKeyUp = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.KeyRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnLosingFocus":
+                    _onLosingFocus = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.LosingFocusEventArgs>)parameter.Value!;
+                    break;
+                case "OnLostFocus":
+                    _onLostFocus = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.RoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnManipulationCompleted":
+                    _onManipulationCompleted = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnManipulationDelta":
+                    _onManipulationDelta = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnManipulationInertiaStarting":
+                    _onManipulationInertiaStarting = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.ManipulationInertiaStartingRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnManipulationStarted":
+                    _onManipulationStarted = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.ManipulationStartedRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnManipulationStarting":
+                    _onManipulationStarting = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.ManipulationStartingRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnNoFocusCandidateFound":
+                    _onNoFocusCandidateFound = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.NoFocusCandidateFoundEventArgs>)parameter.Value!;
+                    break;
+                case "OnPointerCanceled":
+                    _onPointerCanceled = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnPointerCaptureLost":
+                    _onPointerCaptureLost = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnPointerEntered":
+                    _onPointerEntered = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnPointerExited":
+                    _onPointerExited = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnPointerMoved":
+                    _onPointerMoved = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnPointerPressed":
+                    _onPointerPressed = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnPointerReleased":
+                    _onPointerReleased = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnPointerWheelChanged":
+                    _onPointerWheelChanged = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.PointerRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnPreviewKeyDown":
+                    _onPreviewKeyDown = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.KeyRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnPreviewKeyUp":
+                    _onPreviewKeyUp = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.KeyRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnProcessKeyboardAccelerators":
+                    _onProcessKeyboardAccelerators = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.ProcessKeyboardAcceleratorEventArgs>)parameter.Value!;
+                    break;
+                case "OnRightTapped":
+                    _onRightTapped = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs>)parameter.Value!;
+                    break;
+                case "OnTapped":
+                    _onTapped = (global::Microsoft.AspNetCore.Components.EventCallback<global::Microsoft.UI.Xaml.Input.TappedRoutedEventArgs>)parameter.Value!;
+                    break;
             }
         }
         foreach (var removedParameter in _presentParameters)
         {
-            if (currentParameters.Contains(removedParameter)) continue;
+            if (currentParameters.Contains(removedParameter))
+            {
+                continue;
+            }
+
             switch (removedParameter)
             {
                 case "Text":
-                {
-                    _configuredContent = _defaultText;
-                    if (!_hasRenderedChildren) _control.Content = _defaultText;
-                    break;
-                }
+                    {
+                        _configuredContent = _defaultText;
+                        if (!_hasRenderedChildren)
+                        {
+                            _control.Content = _defaultText;
+                        }
+
+                        break;
+                    }
                 case "IsSelected":
-                {
-                    _control.IsSelected = _defaultIsSelected;
-                    break;
-                }
+                    {
+                        _control.IsSelected = _defaultIsSelected;
+                        break;
+                    }
                 case "IsEnabled":
-                {
-                    _control.IsEnabled = _defaultIsEnabled;
-                    break;
-                }
+                    {
+                        _control.IsEnabled = _defaultIsEnabled;
+                        break;
+                    }
                 case "ContentTemplate":
-                {
-                    _control.ContentTemplate = _defaultContentTemplate;
-                    break;
-                }
+                    {
+                        _control.ContentTemplate = _defaultContentTemplate;
+                        break;
+                    }
                 case "ContentTemplateSelector":
-                {
-                    _control.ContentTemplateSelector = _defaultContentTemplateSelector;
-                    break;
-                }
+                    {
+                        _control.ContentTemplateSelector = _defaultContentTemplateSelector;
+                        break;
+                    }
                 case "ContentTransitions":
-                {
-                    _control.ContentTransitions = _defaultContentTransitions;
-                    break;
-                }
+                    {
+                        _control.ContentTransitions = _defaultContentTransitions;
+                        break;
+                    }
                 case "Background":
-                {
-                    _control.Background = _defaultBackground;
-                    break;
-                }
+                    {
+                        _control.Background = _defaultBackground;
+                        break;
+                    }
                 case "BackgroundSizing":
-                {
-                    _control.BackgroundSizing = _defaultBackgroundSizing;
-                    break;
-                }
+                    {
+                        _control.BackgroundSizing = _defaultBackgroundSizing;
+                        break;
+                    }
                 case "BorderBrush":
-                {
-                    _control.BorderBrush = _defaultBorderBrush;
-                    break;
-                }
+                    {
+                        _control.BorderBrush = _defaultBorderBrush;
+                        break;
+                    }
                 case "BorderThickness":
-                {
-                    _control.BorderThickness = _defaultBorderThickness;
-                    break;
-                }
+                    {
+                        _control.BorderThickness = _defaultBorderThickness;
+                        break;
+                    }
                 case "CharacterSpacing":
-                {
-                    _control.CharacterSpacing = _defaultCharacterSpacing;
-                    break;
-                }
+                    {
+                        _control.CharacterSpacing = _defaultCharacterSpacing;
+                        break;
+                    }
                 case "CornerRadius":
-                {
-                    _control.CornerRadius = _defaultCornerRadius;
-                    break;
-                }
+                    {
+                        _control.CornerRadius = _defaultCornerRadius;
+                        break;
+                    }
                 case "DefaultStyleResourceUri":
-                {
-                    _control.DefaultStyleResourceUri = _defaultDefaultStyleResourceUri;
-                    break;
-                }
+                    {
+                        _control.DefaultStyleResourceUri = _defaultDefaultStyleResourceUri;
+                        break;
+                    }
                 case "ElementSoundMode":
-                {
-                    _control.ElementSoundMode = _defaultElementSoundMode;
-                    break;
-                }
+                    {
+                        _control.ElementSoundMode = _defaultElementSoundMode;
+                        break;
+                    }
                 case "FontFamily":
-                {
-                    _control.FontFamily = _defaultFontFamily;
-                    break;
-                }
+                    {
+                        _control.FontFamily = _defaultFontFamily;
+                        break;
+                    }
                 case "FontSize":
-                {
-                    _control.FontSize = _defaultFontSize;
-                    break;
-                }
+                    {
+                        _control.FontSize = _defaultFontSize;
+                        break;
+                    }
                 case "FontStretch":
-                {
-                    _control.FontStretch = _defaultFontStretch;
-                    break;
-                }
+                    {
+                        _control.FontStretch = _defaultFontStretch;
+                        break;
+                    }
                 case "FontStyle":
-                {
-                    _control.FontStyle = _defaultFontStyle;
-                    break;
-                }
+                    {
+                        _control.FontStyle = _defaultFontStyle;
+                        break;
+                    }
                 case "FontWeight":
-                {
-                    _control.FontWeight = _defaultFontWeight;
-                    break;
-                }
+                    {
+                        _control.FontWeight = _defaultFontWeight;
+                        break;
+                    }
                 case "Foreground":
-                {
-                    _control.Foreground = _defaultForeground;
-                    break;
-                }
+                    {
+                        _control.Foreground = _defaultForeground;
+                        break;
+                    }
                 case "HorizontalContentAlignment":
-                {
-                    _control.HorizontalContentAlignment = _defaultHorizontalContentAlignment;
-                    break;
-                }
+                    {
+                        _control.HorizontalContentAlignment = _defaultHorizontalContentAlignment;
+                        break;
+                    }
                 case "IsFocusEngaged":
-                {
-                    _control.IsFocusEngaged = _defaultIsFocusEngaged;
-                    break;
-                }
+                    {
+                        _control.IsFocusEngaged = _defaultIsFocusEngaged;
+                        break;
+                    }
                 case "IsFocusEngagementEnabled":
-                {
-                    _control.IsFocusEngagementEnabled = _defaultIsFocusEngagementEnabled;
-                    break;
-                }
+                    {
+                        _control.IsFocusEngagementEnabled = _defaultIsFocusEngagementEnabled;
+                        break;
+                    }
                 case "IsTextScaleFactorEnabled":
-                {
-                    _control.IsTextScaleFactorEnabled = _defaultIsTextScaleFactorEnabled;
-                    break;
-                }
+                    {
+                        _control.IsTextScaleFactorEnabled = _defaultIsTextScaleFactorEnabled;
+                        break;
+                    }
                 case "Padding":
-                {
-                    _control.Padding = _defaultPadding;
-                    break;
-                }
+                    {
+                        _control.Padding = _defaultPadding;
+                        break;
+                    }
                 case "RequiresPointer":
-                {
-                    _control.RequiresPointer = _defaultRequiresPointer;
-                    break;
-                }
+                    {
+                        _control.RequiresPointer = _defaultRequiresPointer;
+                        break;
+                    }
                 case "TabNavigation":
-                {
-                    _control.TabNavigation = _defaultTabNavigation;
-                    break;
-                }
+                    {
+                        _control.TabNavigation = _defaultTabNavigation;
+                        break;
+                    }
                 case "Template":
-                {
-                    _control.Template = _defaultTemplate;
-                    break;
-                }
+                    {
+                        _control.Template = _defaultTemplate;
+                        break;
+                    }
                 case "VerticalContentAlignment":
-                {
-                    _control.VerticalContentAlignment = _defaultVerticalContentAlignment;
-                    break;
-                }
+                    {
+                        _control.VerticalContentAlignment = _defaultVerticalContentAlignment;
+                        break;
+                    }
                 case "AllowFocusOnInteraction":
-                {
-                    _control.AllowFocusOnInteraction = _defaultAllowFocusOnInteraction;
-                    break;
-                }
+                    {
+                        _control.AllowFocusOnInteraction = _defaultAllowFocusOnInteraction;
+                        break;
+                    }
                 case "AllowFocusWhenDisabled":
-                {
-                    _control.AllowFocusWhenDisabled = _defaultAllowFocusWhenDisabled;
-                    break;
-                }
+                    {
+                        _control.AllowFocusWhenDisabled = _defaultAllowFocusWhenDisabled;
+                        break;
+                    }
                 case "DataContext":
-                {
-                    _control.DataContext = _defaultDataContext;
-                    break;
-                }
+                    {
+                        _control.DataContext = _defaultDataContext;
+                        break;
+                    }
                 case "FlowDirection":
-                {
-                    _control.FlowDirection = _defaultFlowDirection;
-                    break;
-                }
+                    {
+                        _control.FlowDirection = _defaultFlowDirection;
+                        break;
+                    }
                 case "FocusVisualMargin":
-                {
-                    _control.FocusVisualMargin = _defaultFocusVisualMargin;
-                    break;
-                }
+                    {
+                        _control.FocusVisualMargin = _defaultFocusVisualMargin;
+                        break;
+                    }
                 case "FocusVisualPrimaryBrush":
-                {
-                    _control.FocusVisualPrimaryBrush = _defaultFocusVisualPrimaryBrush;
-                    break;
-                }
+                    {
+                        _control.FocusVisualPrimaryBrush = _defaultFocusVisualPrimaryBrush;
+                        break;
+                    }
                 case "FocusVisualPrimaryThickness":
-                {
-                    _control.FocusVisualPrimaryThickness = _defaultFocusVisualPrimaryThickness;
-                    break;
-                }
+                    {
+                        _control.FocusVisualPrimaryThickness = _defaultFocusVisualPrimaryThickness;
+                        break;
+                    }
                 case "FocusVisualSecondaryBrush":
-                {
-                    _control.FocusVisualSecondaryBrush = _defaultFocusVisualSecondaryBrush;
-                    break;
-                }
+                    {
+                        _control.FocusVisualSecondaryBrush = _defaultFocusVisualSecondaryBrush;
+                        break;
+                    }
                 case "FocusVisualSecondaryThickness":
-                {
-                    _control.FocusVisualSecondaryThickness = _defaultFocusVisualSecondaryThickness;
-                    break;
-                }
+                    {
+                        _control.FocusVisualSecondaryThickness = _defaultFocusVisualSecondaryThickness;
+                        break;
+                    }
                 case "Height":
-                {
-                    _control.Height = _defaultHeight;
-                    break;
-                }
+                    {
+                        _control.Height = _defaultHeight;
+                        break;
+                    }
                 case "HorizontalAlignment":
-                {
-                    _control.HorizontalAlignment = _defaultHorizontalAlignment;
-                    break;
-                }
+                    {
+                        _control.HorizontalAlignment = _defaultHorizontalAlignment;
+                        break;
+                    }
                 case "Language":
-                {
-                    _control.Language = _defaultLanguage;
-                    break;
-                }
+                    {
+                        _control.Language = _defaultLanguage;
+                        break;
+                    }
                 case "Margin":
-                {
-                    _control.Margin = _defaultMargin;
-                    break;
-                }
+                    {
+                        _control.Margin = _defaultMargin;
+                        break;
+                    }
                 case "MaxHeight":
-                {
-                    _control.MaxHeight = _defaultMaxHeight;
-                    break;
-                }
+                    {
+                        _control.MaxHeight = _defaultMaxHeight;
+                        break;
+                    }
                 case "MaxWidth":
-                {
-                    _control.MaxWidth = _defaultMaxWidth;
-                    break;
-                }
+                    {
+                        _control.MaxWidth = _defaultMaxWidth;
+                        break;
+                    }
                 case "MinHeight":
-                {
-                    _control.MinHeight = _defaultMinHeight;
-                    break;
-                }
+                    {
+                        _control.MinHeight = _defaultMinHeight;
+                        break;
+                    }
                 case "MinWidth":
-                {
-                    _control.MinWidth = _defaultMinWidth;
-                    break;
-                }
+                    {
+                        _control.MinWidth = _defaultMinWidth;
+                        break;
+                    }
                 case "Name":
-                {
-                    _control.Name = _defaultName;
-                    break;
-                }
+                    {
+                        _control.Name = _defaultName;
+                        break;
+                    }
                 case "RequestedTheme":
-                {
-                    _control.RequestedTheme = _defaultRequestedTheme;
-                    break;
-                }
+                    {
+                        _control.RequestedTheme = _defaultRequestedTheme;
+                        break;
+                    }
                 case "Resources":
-                {
-                    _control.Resources = _defaultResources;
-                    break;
-                }
+                    {
+                        _control.Resources = _defaultResources;
+                        break;
+                    }
                 case "Style":
-                {
-                    _control.Style = _defaultStyle;
-                    break;
-                }
+                    {
+                        _control.Style = _defaultStyle;
+                        break;
+                    }
                 case "Tag":
-                {
-                    _control.Tag = _defaultTag;
-                    break;
-                }
+                    {
+                        _control.Tag = _defaultTag;
+                        break;
+                    }
                 case "VerticalAlignment":
-                {
-                    _control.VerticalAlignment = _defaultVerticalAlignment;
-                    break;
-                }
+                    {
+                        _control.VerticalAlignment = _defaultVerticalAlignment;
+                        break;
+                    }
                 case "Width":
-                {
-                    _control.Width = _defaultWidth;
-                    break;
-                }
+                    {
+                        _control.Width = _defaultWidth;
+                        break;
+                    }
                 case "AccessKey":
-                {
-                    _control.AccessKey = _defaultAccessKey;
-                    break;
-                }
+                    {
+                        _control.AccessKey = _defaultAccessKey;
+                        break;
+                    }
                 case "AccessKeyScopeOwner":
-                {
-                    _control.AccessKeyScopeOwner = _defaultAccessKeyScopeOwner;
-                    break;
-                }
+                    {
+                        _control.AccessKeyScopeOwner = _defaultAccessKeyScopeOwner;
+                        break;
+                    }
                 case "AllowDrop":
-                {
-                    _control.AllowDrop = _defaultAllowDrop;
-                    break;
-                }
+                    {
+                        _control.AllowDrop = _defaultAllowDrop;
+                        break;
+                    }
                 case "CacheMode":
-                {
-                    _control.CacheMode = _defaultCacheMode;
-                    break;
-                }
+                    {
+                        _control.CacheMode = _defaultCacheMode;
+                        break;
+                    }
                 case "CanBeScrollAnchor":
-                {
-                    _control.CanBeScrollAnchor = _defaultCanBeScrollAnchor;
-                    break;
-                }
+                    {
+                        _control.CanBeScrollAnchor = _defaultCanBeScrollAnchor;
+                        break;
+                    }
                 case "CanDrag":
-                {
-                    _control.CanDrag = _defaultCanDrag;
-                    break;
-                }
+                    {
+                        _control.CanDrag = _defaultCanDrag;
+                        break;
+                    }
                 case "CenterPoint":
-                {
-                    _control.CenterPoint = _defaultCenterPoint;
-                    break;
-                }
+                    {
+                        _control.CenterPoint = _defaultCenterPoint;
+                        break;
+                    }
                 case "Clip":
-                {
-                    _control.Clip = _defaultClip;
-                    break;
-                }
+                    {
+                        _control.Clip = _defaultClip;
+                        break;
+                    }
                 case "CompositeMode":
-                {
-                    _control.CompositeMode = _defaultCompositeMode;
-                    break;
-                }
+                    {
+                        _control.CompositeMode = _defaultCompositeMode;
+                        break;
+                    }
                 case "ContextFlyout":
-                {
-                    _control.ContextFlyout = _defaultContextFlyout;
-                    break;
-                }
+                    {
+                        _control.ContextFlyout = _defaultContextFlyout;
+                        break;
+                    }
                 case "ExitDisplayModeOnAccessKeyInvoked":
-                {
-                    _control.ExitDisplayModeOnAccessKeyInvoked = _defaultExitDisplayModeOnAccessKeyInvoked;
-                    break;
-                }
+                    {
+                        _control.ExitDisplayModeOnAccessKeyInvoked = _defaultExitDisplayModeOnAccessKeyInvoked;
+                        break;
+                    }
                 case "HighContrastAdjustment":
-                {
-                    _control.HighContrastAdjustment = _defaultHighContrastAdjustment;
-                    break;
-                }
+                    {
+                        _control.HighContrastAdjustment = _defaultHighContrastAdjustment;
+                        break;
+                    }
                 case "IsAccessKeyScope":
-                {
-                    _control.IsAccessKeyScope = _defaultIsAccessKeyScope;
-                    break;
-                }
+                    {
+                        _control.IsAccessKeyScope = _defaultIsAccessKeyScope;
+                        break;
+                    }
                 case "IsDoubleTapEnabled":
-                {
-                    _control.IsDoubleTapEnabled = _defaultIsDoubleTapEnabled;
-                    break;
-                }
+                    {
+                        _control.IsDoubleTapEnabled = _defaultIsDoubleTapEnabled;
+                        break;
+                    }
                 case "IsHitTestVisible":
-                {
-                    _control.IsHitTestVisible = _defaultIsHitTestVisible;
-                    break;
-                }
+                    {
+                        _control.IsHitTestVisible = _defaultIsHitTestVisible;
+                        break;
+                    }
                 case "IsHoldingEnabled":
-                {
-                    _control.IsHoldingEnabled = _defaultIsHoldingEnabled;
-                    break;
-                }
+                    {
+                        _control.IsHoldingEnabled = _defaultIsHoldingEnabled;
+                        break;
+                    }
                 case "IsRightTapEnabled":
-                {
-                    _control.IsRightTapEnabled = _defaultIsRightTapEnabled;
-                    break;
-                }
+                    {
+                        _control.IsRightTapEnabled = _defaultIsRightTapEnabled;
+                        break;
+                    }
                 case "IsTabStop":
-                {
-                    _control.IsTabStop = _defaultIsTabStop;
-                    break;
-                }
+                    {
+                        _control.IsTabStop = _defaultIsTabStop;
+                        break;
+                    }
                 case "IsTapEnabled":
-                {
-                    _control.IsTapEnabled = _defaultIsTapEnabled;
-                    break;
-                }
+                    {
+                        _control.IsTapEnabled = _defaultIsTapEnabled;
+                        break;
+                    }
                 case "KeyTipHorizontalOffset":
-                {
-                    _control.KeyTipHorizontalOffset = _defaultKeyTipHorizontalOffset;
-                    break;
-                }
+                    {
+                        _control.KeyTipHorizontalOffset = _defaultKeyTipHorizontalOffset;
+                        break;
+                    }
                 case "KeyTipPlacementMode":
-                {
-                    _control.KeyTipPlacementMode = _defaultKeyTipPlacementMode;
-                    break;
-                }
+                    {
+                        _control.KeyTipPlacementMode = _defaultKeyTipPlacementMode;
+                        break;
+                    }
                 case "KeyTipTarget":
-                {
-                    _control.KeyTipTarget = _defaultKeyTipTarget;
-                    break;
-                }
+                    {
+                        _control.KeyTipTarget = _defaultKeyTipTarget;
+                        break;
+                    }
                 case "KeyTipVerticalOffset":
-                {
-                    _control.KeyTipVerticalOffset = _defaultKeyTipVerticalOffset;
-                    break;
-                }
+                    {
+                        _control.KeyTipVerticalOffset = _defaultKeyTipVerticalOffset;
+                        break;
+                    }
                 case "KeyboardAcceleratorPlacementMode":
-                {
-                    _control.KeyboardAcceleratorPlacementMode = _defaultKeyboardAcceleratorPlacementMode;
-                    break;
-                }
+                    {
+                        _control.KeyboardAcceleratorPlacementMode = _defaultKeyboardAcceleratorPlacementMode;
+                        break;
+                    }
                 case "KeyboardAcceleratorPlacementTarget":
-                {
-                    _control.KeyboardAcceleratorPlacementTarget = _defaultKeyboardAcceleratorPlacementTarget;
-                    break;
-                }
+                    {
+                        _control.KeyboardAcceleratorPlacementTarget = _defaultKeyboardAcceleratorPlacementTarget;
+                        break;
+                    }
                 case "ManipulationMode":
-                {
-                    _control.ManipulationMode = _defaultManipulationMode;
-                    break;
-                }
+                    {
+                        _control.ManipulationMode = _defaultManipulationMode;
+                        break;
+                    }
                 case "Opacity":
-                {
-                    _control.Opacity = _defaultOpacity;
-                    break;
-                }
+                    {
+                        _control.Opacity = _defaultOpacity;
+                        break;
+                    }
                 case "OpacityTransition":
-                {
-                    _control.OpacityTransition = _defaultOpacityTransition;
-                    break;
-                }
+                    {
+                        _control.OpacityTransition = _defaultOpacityTransition;
+                        break;
+                    }
                 case "Projection":
-                {
-                    _control.Projection = _defaultProjection;
-                    break;
-                }
+                    {
+                        _control.Projection = _defaultProjection;
+                        break;
+                    }
                 case "RasterizationScale":
-                {
-                    _control.RasterizationScale = _defaultRasterizationScale;
-                    break;
-                }
+                    {
+                        _control.RasterizationScale = _defaultRasterizationScale;
+                        break;
+                    }
                 case "RenderTransform":
-                {
-                    _control.RenderTransform = _defaultRenderTransform;
-                    break;
-                }
+                    {
+                        _control.RenderTransform = _defaultRenderTransform;
+                        break;
+                    }
                 case "RenderTransformOrigin":
-                {
-                    _control.RenderTransformOrigin = _defaultRenderTransformOrigin;
-                    break;
-                }
+                    {
+                        _control.RenderTransformOrigin = _defaultRenderTransformOrigin;
+                        break;
+                    }
                 case "Rotation":
-                {
-                    _control.Rotation = _defaultRotation;
-                    break;
-                }
+                    {
+                        _control.Rotation = _defaultRotation;
+                        break;
+                    }
                 case "RotationAxis":
-                {
-                    _control.RotationAxis = _defaultRotationAxis;
-                    break;
-                }
+                    {
+                        _control.RotationAxis = _defaultRotationAxis;
+                        break;
+                    }
                 case "RotationTransition":
-                {
-                    _control.RotationTransition = _defaultRotationTransition;
-                    break;
-                }
+                    {
+                        _control.RotationTransition = _defaultRotationTransition;
+                        break;
+                    }
                 case "Scale":
-                {
-                    _control.Scale = _defaultScale;
-                    break;
-                }
+                    {
+                        _control.Scale = _defaultScale;
+                        break;
+                    }
                 case "ScaleTransition":
-                {
-                    _control.ScaleTransition = _defaultScaleTransition;
-                    break;
-                }
+                    {
+                        _control.ScaleTransition = _defaultScaleTransition;
+                        break;
+                    }
                 case "Shadow":
-                {
-                    _control.Shadow = _defaultShadow;
-                    break;
-                }
+                    {
+                        _control.Shadow = _defaultShadow;
+                        break;
+                    }
                 case "TabFocusNavigation":
-                {
-                    _control.TabFocusNavigation = _defaultTabFocusNavigation;
-                    break;
-                }
+                    {
+                        _control.TabFocusNavigation = _defaultTabFocusNavigation;
+                        break;
+                    }
                 case "TabIndex":
-                {
-                    _control.TabIndex = _defaultTabIndex;
-                    break;
-                }
+                    {
+                        _control.TabIndex = _defaultTabIndex;
+                        break;
+                    }
                 case "Transform3D":
-                {
-                    _control.Transform3D = _defaultTransform3D;
-                    break;
-                }
+                    {
+                        _control.Transform3D = _defaultTransform3D;
+                        break;
+                    }
                 case "TransformMatrix":
-                {
-                    _control.TransformMatrix = _defaultTransformMatrix;
-                    break;
-                }
+                    {
+                        _control.TransformMatrix = _defaultTransformMatrix;
+                        break;
+                    }
                 case "Transitions":
-                {
-                    _control.Transitions = _defaultTransitions;
-                    break;
-                }
+                    {
+                        _control.Transitions = _defaultTransitions;
+                        break;
+                    }
                 case "Translation":
-                {
-                    _control.Translation = _defaultTranslation;
-                    break;
-                }
+                    {
+                        _control.Translation = _defaultTranslation;
+                        break;
+                    }
                 case "TranslationTransition":
-                {
-                    _control.TranslationTransition = _defaultTranslationTransition;
-                    break;
-                }
+                    {
+                        _control.TranslationTransition = _defaultTranslationTransition;
+                        break;
+                    }
                 case "UseLayoutRounding":
-                {
-                    _control.UseLayoutRounding = _defaultUseLayoutRounding;
-                    break;
-                }
+                    {
+                        _control.UseLayoutRounding = _defaultUseLayoutRounding;
+                        break;
+                    }
                 case "UseSystemFocusVisuals":
-                {
-                    _control.UseSystemFocusVisuals = _defaultUseSystemFocusVisuals;
-                    break;
-                }
+                    {
+                        _control.UseSystemFocusVisuals = _defaultUseSystemFocusVisuals;
+                        break;
+                    }
                 case "Visibility":
-                {
-                    _control.Visibility = _defaultVisibility;
-                    break;
-                }
+                    {
+                        _control.Visibility = _defaultVisibility;
+                        break;
+                    }
                 case "XYFocusDown":
-                {
-                    _control.XYFocusDown = _defaultXYFocusDown;
-                    break;
-                }
+                    {
+                        _control.XYFocusDown = _defaultXYFocusDown;
+                        break;
+                    }
                 case "XYFocusDownNavigationStrategy":
-                {
-                    _control.XYFocusDownNavigationStrategy = _defaultXYFocusDownNavigationStrategy;
-                    break;
-                }
+                    {
+                        _control.XYFocusDownNavigationStrategy = _defaultXYFocusDownNavigationStrategy;
+                        break;
+                    }
                 case "XYFocusKeyboardNavigation":
-                {
-                    _control.XYFocusKeyboardNavigation = _defaultXYFocusKeyboardNavigation;
-                    break;
-                }
+                    {
+                        _control.XYFocusKeyboardNavigation = _defaultXYFocusKeyboardNavigation;
+                        break;
+                    }
                 case "XYFocusLeft":
-                {
-                    _control.XYFocusLeft = _defaultXYFocusLeft;
-                    break;
-                }
+                    {
+                        _control.XYFocusLeft = _defaultXYFocusLeft;
+                        break;
+                    }
                 case "XYFocusLeftNavigationStrategy":
-                {
-                    _control.XYFocusLeftNavigationStrategy = _defaultXYFocusLeftNavigationStrategy;
-                    break;
-                }
+                    {
+                        _control.XYFocusLeftNavigationStrategy = _defaultXYFocusLeftNavigationStrategy;
+                        break;
+                    }
                 case "XYFocusRight":
-                {
-                    _control.XYFocusRight = _defaultXYFocusRight;
-                    break;
-                }
+                    {
+                        _control.XYFocusRight = _defaultXYFocusRight;
+                        break;
+                    }
                 case "XYFocusRightNavigationStrategy":
-                {
-                    _control.XYFocusRightNavigationStrategy = _defaultXYFocusRightNavigationStrategy;
-                    break;
-                }
+                    {
+                        _control.XYFocusRightNavigationStrategy = _defaultXYFocusRightNavigationStrategy;
+                        break;
+                    }
                 case "XYFocusUp":
-                {
-                    _control.XYFocusUp = _defaultXYFocusUp;
-                    break;
-                }
+                    {
+                        _control.XYFocusUp = _defaultXYFocusUp;
+                        break;
+                    }
                 case "XYFocusUpNavigationStrategy":
-                {
-                    _control.XYFocusUpNavigationStrategy = _defaultXYFocusUpNavigationStrategy;
-                    break;
-                }
+                    {
+                        _control.XYFocusUpNavigationStrategy = _defaultXYFocusUpNavigationStrategy;
+                        break;
+                    }
                 case "XamlRoot":
-                {
-                    _control.XamlRoot = _defaultXamlRoot;
+                    {
+                        _control.XamlRoot = _defaultXamlRoot;
+                        break;
+                    }
+                case "OnFocusDisengaged":
+                    _onFocusDisengaged = default;
                     break;
-                }
-                case "OnFocusDisengaged": _onFocusDisengaged = default; break;
-                case "OnFocusEngaged": _onFocusEngaged = default; break;
-                case "OnIsEnabledChanged": _onIsEnabledChanged = default; break;
-                case "OnActualThemeChanged": _onActualThemeChanged = default; break;
-                case "OnDataContextChanged": _onDataContextChanged = default; break;
-                case "OnEffectiveViewportChanged": _onEffectiveViewportChanged = default; break;
-                case "OnLayoutUpdated": _onLayoutUpdated = default; break;
-                case "OnLoaded": _onLoaded = default; break;
-                case "OnLoading": _onLoading = default; break;
-                case "OnSizeChanged": _onSizeChanged = default; break;
-                case "OnUnloaded": _onUnloaded = default; break;
-                case "OnAccessKeyDisplayDismissed": _onAccessKeyDisplayDismissed = default; break;
-                case "OnAccessKeyDisplayRequested": _onAccessKeyDisplayRequested = default; break;
-                case "OnAccessKeyInvoked": _onAccessKeyInvoked = default; break;
-                case "OnBringIntoViewRequested": _onBringIntoViewRequested = default; break;
-                case "OnCharacterReceived": _onCharacterReceived = default; break;
-                case "OnContextCanceled": _onContextCanceled = default; break;
-                case "OnContextRequested": _onContextRequested = default; break;
-                case "OnDoubleTapped": _onDoubleTapped = default; break;
-                case "OnDragEnter": _onDragEnter = default; break;
-                case "OnDragLeave": _onDragLeave = default; break;
-                case "OnDragOver": _onDragOver = default; break;
-                case "OnDragStarting": _onDragStarting = default; break;
-                case "OnDrop": _onDrop = default; break;
-                case "OnDropCompleted": _onDropCompleted = default; break;
-                case "OnGettingFocus": _onGettingFocus = default; break;
-                case "OnGotFocus": _onGotFocus = default; break;
-                case "OnHolding": _onHolding = default; break;
-                case "OnKeyDown": _onKeyDown = default; break;
-                case "OnKeyUp": _onKeyUp = default; break;
-                case "OnLosingFocus": _onLosingFocus = default; break;
-                case "OnLostFocus": _onLostFocus = default; break;
-                case "OnManipulationCompleted": _onManipulationCompleted = default; break;
-                case "OnManipulationDelta": _onManipulationDelta = default; break;
-                case "OnManipulationInertiaStarting": _onManipulationInertiaStarting = default; break;
-                case "OnManipulationStarted": _onManipulationStarted = default; break;
-                case "OnManipulationStarting": _onManipulationStarting = default; break;
-                case "OnNoFocusCandidateFound": _onNoFocusCandidateFound = default; break;
-                case "OnPointerCanceled": _onPointerCanceled = default; break;
-                case "OnPointerCaptureLost": _onPointerCaptureLost = default; break;
-                case "OnPointerEntered": _onPointerEntered = default; break;
-                case "OnPointerExited": _onPointerExited = default; break;
-                case "OnPointerMoved": _onPointerMoved = default; break;
-                case "OnPointerPressed": _onPointerPressed = default; break;
-                case "OnPointerReleased": _onPointerReleased = default; break;
-                case "OnPointerWheelChanged": _onPointerWheelChanged = default; break;
-                case "OnPreviewKeyDown": _onPreviewKeyDown = default; break;
-                case "OnPreviewKeyUp": _onPreviewKeyUp = default; break;
-                case "OnProcessKeyboardAccelerators": _onProcessKeyboardAccelerators = default; break;
-                case "OnRightTapped": _onRightTapped = default; break;
-                case "OnTapped": _onTapped = default; break;
+                case "OnFocusEngaged":
+                    _onFocusEngaged = default;
+                    break;
+                case "OnIsEnabledChanged":
+                    _onIsEnabledChanged = default;
+                    break;
+                case "OnActualThemeChanged":
+                    _onActualThemeChanged = default;
+                    break;
+                case "OnDataContextChanged":
+                    _onDataContextChanged = default;
+                    break;
+                case "OnEffectiveViewportChanged":
+                    _onEffectiveViewportChanged = default;
+                    break;
+                case "OnLayoutUpdated":
+                    _onLayoutUpdated = default;
+                    break;
+                case "OnLoaded":
+                    _onLoaded = default;
+                    break;
+                case "OnLoading":
+                    _onLoading = default;
+                    break;
+                case "OnSizeChanged":
+                    _onSizeChanged = default;
+                    break;
+                case "OnUnloaded":
+                    _onUnloaded = default;
+                    break;
+                case "OnAccessKeyDisplayDismissed":
+                    _onAccessKeyDisplayDismissed = default;
+                    break;
+                case "OnAccessKeyDisplayRequested":
+                    _onAccessKeyDisplayRequested = default;
+                    break;
+                case "OnAccessKeyInvoked":
+                    _onAccessKeyInvoked = default;
+                    break;
+                case "OnBringIntoViewRequested":
+                    _onBringIntoViewRequested = default;
+                    break;
+                case "OnCharacterReceived":
+                    _onCharacterReceived = default;
+                    break;
+                case "OnContextCanceled":
+                    _onContextCanceled = default;
+                    break;
+                case "OnContextRequested":
+                    _onContextRequested = default;
+                    break;
+                case "OnDoubleTapped":
+                    _onDoubleTapped = default;
+                    break;
+                case "OnDragEnter":
+                    _onDragEnter = default;
+                    break;
+                case "OnDragLeave":
+                    _onDragLeave = default;
+                    break;
+                case "OnDragOver":
+                    _onDragOver = default;
+                    break;
+                case "OnDragStarting":
+                    _onDragStarting = default;
+                    break;
+                case "OnDrop":
+                    _onDrop = default;
+                    break;
+                case "OnDropCompleted":
+                    _onDropCompleted = default;
+                    break;
+                case "OnGettingFocus":
+                    _onGettingFocus = default;
+                    break;
+                case "OnGotFocus":
+                    _onGotFocus = default;
+                    break;
+                case "OnHolding":
+                    _onHolding = default;
+                    break;
+                case "OnKeyDown":
+                    _onKeyDown = default;
+                    break;
+                case "OnKeyUp":
+                    _onKeyUp = default;
+                    break;
+                case "OnLosingFocus":
+                    _onLosingFocus = default;
+                    break;
+                case "OnLostFocus":
+                    _onLostFocus = default;
+                    break;
+                case "OnManipulationCompleted":
+                    _onManipulationCompleted = default;
+                    break;
+                case "OnManipulationDelta":
+                    _onManipulationDelta = default;
+                    break;
+                case "OnManipulationInertiaStarting":
+                    _onManipulationInertiaStarting = default;
+                    break;
+                case "OnManipulationStarted":
+                    _onManipulationStarted = default;
+                    break;
+                case "OnManipulationStarting":
+                    _onManipulationStarting = default;
+                    break;
+                case "OnNoFocusCandidateFound":
+                    _onNoFocusCandidateFound = default;
+                    break;
+                case "OnPointerCanceled":
+                    _onPointerCanceled = default;
+                    break;
+                case "OnPointerCaptureLost":
+                    _onPointerCaptureLost = default;
+                    break;
+                case "OnPointerEntered":
+                    _onPointerEntered = default;
+                    break;
+                case "OnPointerExited":
+                    _onPointerExited = default;
+                    break;
+                case "OnPointerMoved":
+                    _onPointerMoved = default;
+                    break;
+                case "OnPointerPressed":
+                    _onPointerPressed = default;
+                    break;
+                case "OnPointerReleased":
+                    _onPointerReleased = default;
+                    break;
+                case "OnPointerWheelChanged":
+                    _onPointerWheelChanged = default;
+                    break;
+                case "OnPreviewKeyDown":
+                    _onPreviewKeyDown = default;
+                    break;
+                case "OnPreviewKeyUp":
+                    _onPreviewKeyUp = default;
+                    break;
+                case "OnProcessKeyboardAccelerators":
+                    _onProcessKeyboardAccelerators = default;
+                    break;
+                case "OnRightTapped":
+                    _onRightTapped = default;
+                    break;
+                case "OnTapped":
+                    _onTapped = default;
+                    break;
             }
         }
         _presentParameters.Clear();

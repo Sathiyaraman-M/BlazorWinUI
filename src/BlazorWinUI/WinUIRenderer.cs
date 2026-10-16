@@ -329,10 +329,18 @@ public sealed class WinUIRenderer(IServiceProvider serviceProvider, DispatcherQu
 
             switch (frame.AttributeName)
             {
-                case nameof(Components.GridCell.Row): row = (int)frame.AttributeValue!; break;
-                case nameof(Components.GridCell.Column): column = (int)frame.AttributeValue!; break;
-                case nameof(Components.GridCell.RowSpan): rowSpan = (int)frame.AttributeValue!; break;
-                case nameof(Components.GridCell.ColumnSpan): columnSpan = (int)frame.AttributeValue!; break;
+                case nameof(Components.GridCell.Row):
+                    row = (int)frame.AttributeValue!;
+                    break;
+                case nameof(Components.GridCell.Column):
+                    column = (int)frame.AttributeValue!;
+                    break;
+                case nameof(Components.GridCell.RowSpan):
+                    rowSpan = (int)frame.AttributeValue!;
+                    break;
+                case nameof(Components.GridCell.ColumnSpan):
+                    columnSpan = (int)frame.AttributeValue!;
+                    break;
             }
         }
 
