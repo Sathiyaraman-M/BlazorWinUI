@@ -7,7 +7,7 @@ using Microsoft.UI.Dispatching;
 namespace BlazorWinUI;
 
 /// <summary>Registers the shared renderer used by XAML-hosted Blazor components.</summary>
-public static class BlazorWinUIServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     /// <summary>
     /// Registers one <see cref="WinUIRenderer"/> for the application service provider and UI dispatcher.
